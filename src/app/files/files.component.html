@@ -1,0 +1,8 @@
+<div class="blog-post">
+  <h3>Upload Dataset</h3>
+  <form>
+      <label for="file" class="button">Choose File</label>
+      <input class="show-for-sr" type="file" name="file" id="file" aria-describedby="uploadHelp" (change)="fileChange($event)" accept=".csv, .xes">
+      <p class="help-text" id="uploadHelp">File yang digunakan merupakan file csv</p>
+  </form>
+</div>

@@ -1,0 +1,19 @@
+<div class="blog-post">
+    <h3>Data</h3>
+    <div class="expanded button-group">
+        <button class="button" (click)="raw()">Data Raw</button>
+        <button class="button" (click)="final()" [ngClass]="{'disabled': isDisabled}">Data Hasil Preprocess</button>
+    </div>      
+    <table width="100%" [hidden]="isHidden" *ngIf="viewReady">
+        <thead>
+            <th *ngFor="let head of eventLog.head">{{ head | uppercase }}</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of eventLog.data">
+            <td>{{ data.case_id }}</td>
+            <td>{{ data.task }}</td>
+            <td>{{ data.timestamp }}</td>
+          </tr>
+        </tbody>
+    </table>
+</div>

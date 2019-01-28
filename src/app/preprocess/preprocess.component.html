@@ -1,0 +1,21 @@
+<div class="blog-post">
+  <h3>Preprocessing Data</h3>
+  <form *ngIf="viewReady" #form="ngForm" (ngSubmit)="onSubmit(form)">
+      <label>Case Id
+          <select name="case_id" id="case_id" [(ngModel)]="case_id" required>
+              <option *ngFor="let h of head; let i = index" [ngValue]="i">{{ h }}</option>
+          </select>
+      </label>
+      <label>Task
+          <select name="task" id="task" [(ngModel)]="task" required>
+            <option *ngFor="let h of head; let i = index" [ngValue]="i">{{ h }}</option>
+          </select>
+      </label>
+      <label>Timestamp
+          <select name="timestamp" id="timestamp" [(ngModel)]="timestamp" required>
+            <option *ngFor="let h of head; let i = index" [ngValue]="i">{{ h }}</option>
+          </select>
+      </label>
+      <button type="submit" name="submit" class="button">Preprocess</button>
+  </form>
+</div>
