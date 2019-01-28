@@ -1,27 +1,39 @@
 # FlowClient
 
+A project that i created as my final assignment to get my bachelor degree
+This project's aim is to provide control flow and dotted chart visualization of event log that will be used as a preliminary step before step into process discovery in Process Mining 
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.4.
 
-## Development server
+## Getting Started
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+To start using this app please follow the instructions below
 
-## Code scaffolding
+### Prequisites
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+* Install [Node.js and NPM](https://www.npmjs.com/get-npm)
+* Install [Angular CLI](https://angular.io/guide/quickstart)
+* Clone this project to your local computer
 
-## Build
+I'm using angular version 7
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+### Running the app
 
-## Running unit tests
+To run this app, first you move to the directory containing this project then you can run the development server
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
+cd flow-client
+ng serve
+```
 
-## Running end-to-end tests
+and then open [localhost](http://127.0.0.1:4200)
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Deployment
 
-## Further help
+Project still a work in progress, and haven't tested in live server yet
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Author
+
+* **Demaspira Aulia** - [noobdedem](https://github.com/noobdedem) 
+
+For further question you can contact me here: demaspiraa@gmail.com
