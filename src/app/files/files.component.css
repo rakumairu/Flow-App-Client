@@ -1,0 +1,7 @@
+.upload-container {
+    width: fit-content;
+    min-width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 16px;
+}

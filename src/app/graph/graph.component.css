@@ -1,0 +1,10 @@
+.toolbar-flex {
+    flex: 1 0.5 auto;
+}
+
+.content {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 16px;
+}

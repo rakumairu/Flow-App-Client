@@ -48,8 +48,8 @@ export class DataServicesService {
     return this.http.get(this._displayUrl)
   }
 
-  preprocess(logHeader: LogHeader) {
-    return this.http.post<LogHeader>(this._preprocessUrl, logHeader)
+  preprocess(formData: FormData) {
+    return this.http.post(this._preprocessUrl, formData)
   }
 
   preprocessHead() {

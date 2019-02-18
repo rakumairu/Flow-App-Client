@@ -1,0 +1,22 @@
+.fillSpace {
+    flex: 1 1 auto;
+}
+
+.mat-button {
+    font-size: 14px;
+}
+
+.mat-toolbar {
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 56px;
+}
+
+.app-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+}

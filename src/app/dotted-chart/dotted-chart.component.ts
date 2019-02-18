@@ -59,9 +59,6 @@ export class DottedChartComponent implements OnInit {
     let chart = new CanvasJS.Chart('chartContainer', {
       zoomEnabled: true,
       animationEnabled: true,
-      title:{
-        text: "Dotted Chart"
-      },
       axisX: {
         title:"time"
       },

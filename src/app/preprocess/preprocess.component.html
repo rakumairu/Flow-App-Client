@@ -1,21 +1,58 @@
-<div class="blog-post">
-  <h3>Preprocessing Data</h3>
-  <form *ngIf="viewReady" #form="ngForm" (ngSubmit)="onSubmit(form)">
-      <label>Case Id
-          <select name="case_id" id="case_id" [(ngModel)]="case_id" required>
-              <option *ngFor="let h of head; let i = index" [ngValue]="i">{{ h }}</option>
-          </select>
-      </label>
-      <label>Task
-          <select name="task" id="task" [(ngModel)]="task" required>
-            <option *ngFor="let h of head; let i = index" [ngValue]="i">{{ h }}</option>
-          </select>
-      </label>
-      <label>Timestamp
-          <select name="timestamp" id="timestamp" [(ngModel)]="timestamp" required>
-            <option *ngFor="let h of head; let i = index" [ngValue]="i">{{ h }}</option>
-          </select>
-      </label>
-      <button type="submit" name="submit" class="button">Preprocess</button>
-  </form>
+<mat-progress-bar *ngIf="value > 0" [value]='value' color='primary'></mat-progress-bar>
+<div class="page-header">
+    <h1>Preprocessing Data</h1>
+</div>
+
+<div class="page-content">
+    <mat-horizontal-stepper labelPosition='bottom'>
+        <mat-step>
+            <ng-template matStepLabel>Choose The Attributes</ng-template>
+            <!-- <form *ngIf="viewReady" #form="ngForm" (ngSubmit)="onSubmit(form)">
+                <label>Case Id
+                    <select name="case_id" id="case_id" [(ngModel)]="case_id" required>
+                        <option *ngFor="let h of head; let i = index" [ngValue]="i">{{ h }}</option>
+                    </select>
+                </label>
+                <label>Task
+                    <select name="task" id="task" [(ngModel)]="task" required>
+                      <option *ngFor="let h of head; let i = index" [ngValue]="i">{{ h }}</option>
+                    </select>
+                </label>
+                <label>Timestamp
+                    <select name="timestamp" id="timestamp" [(ngModel)]="timestamp" required>
+                      <option *ngFor="let h of head; let i = index" [ngValue]="i">{{ h }}</option>
+                    </select>
+                </label>
+                <button type="submit" name="submit" class="button">Preprocess</button>
+            </form> -->
+            <form *ngIf="viewReady" #form="ngForm" (ngSubmit)="onSubmit(form)">
+                <h4>Case ID</h4>
+                <mat-form-field>
+                    <mat-select placeholder="case id" name='case_id' [(ngModel)]='case_id' required>
+                        <mat-option *ngFor="let h of head; let i = index" [value]="i">{{ h }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <h4>Task</h4>
+                <mat-form-field>
+                    <mat-select placeholder="task" name='task' [(ngModel)]='task' required>
+                        <mat-option *ngFor="let h of head; let i = index" [value]="i">{{ h }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <h4>Timestamp</h4>
+                <mat-form-field>
+                    <mat-select placeholder="timestamp" name='timestamp' [(ngModel)]='timestamp' required>
+                        <mat-option *ngFor="let h of head; let i = index" [value]="i">{{ h }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div>
+                    <!-- <button mat-button matStepperPrevious>Back</button> -->
+                    <button mat-raised-button type="submit" name="submit" class="button">Preprocess</button>
+                </div>
+            </form>
+            <button mat-button matStepperNext id="nextButton" style="display: none;">Next</button>
+        </mat-step>
+        <mat-step label="Filtering">
+            
+        </mat-step>
+    </mat-horizontal-stepper>
 </div>

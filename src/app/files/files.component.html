@@ -1,8 +1,10 @@
-<div class="blog-post">
-  <h3>Upload Dataset</h3>
-  <form>
-      <label for="file" class="button">Choose File</label>
-      <input class="show-for-sr" type="file" name="file" id="file" aria-describedby="uploadHelp" (change)="fileChange($event)" accept=".csv, .xes">
-      <p class="help-text" id="uploadHelp">File yang digunakan merupakan file csv</p>
-  </form>
+<mat-progress-bar *ngIf="value > 0" [value]='value' color='primary'></mat-progress-bar>
+<div class="page-header">
+  <h1>Upload Dataset</h1>
+</div>
+
+<div class="upload-container">
+  <p>Please provide your moodle event log in csv or xes extension to start this application</p>
+  <button mat-raised-button color='accent' (click)="openUpload()">Choose File</button>
+  <input type="file" id="file" (change)="fileChange($event)" hidden>
 </div>

@@ -1,4 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body {
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+}
+
+h1 {
+    font-weight: 300;
+    font-size: 20px;
+    padding-top: 28px;
+    padding-bottom: 28px;
+    padding-left: 16px;
+    margin: 0;
+    color: white;
+}
+
+app-root {
+    position: absolute;
+    top: 56px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-header {
+    padding-left: 16px;
+    background-color: #3f51b5;
+}
+
+.page-content {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 16px;
+    width: 70%;
+}
+
 svg {
     border: 1px solid #999;
     overflow: hidden;
@@ -28,10 +66,10 @@ svg {
 /* textarea {
     width: 800px;
 } */
-label {
+/* label {
     margin-top: 1em;
     display: block;
-}
+} */
 /* .error {
     color: red;
 } */

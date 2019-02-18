@@ -1,26 +1,10 @@
-<div class="top-bar">
-  <div class="top-bar-left">
-    <ul class="menu">
-      <li class="menu-text">Flow</li>
-      <li><a [routerLink]="[ '/display' ]" routerLinkActive="active" *ngIf="fileExist">Display</a></li>
-      <li><a [routerLink]="[ '/preprocess' ]" routerLinkActive="active" *ngIf="fileExist">Preprocess</a></li>
-      <li><a [routerLink]="[ '/filter' ]" routerLinkActive="active" *ngIf="fileExist">Filter</a></li>
-      <li><a [routerLink]="[ '/graph' ]" routerLinkActive="active" *ngIf="fileExist">Graph</a></li>
-    </ul>
-  </div>
-  <div class="top-bar-right" *ngIf="fileExist">
-    <ul class="menu align-right">
-      <li><a class="button alert" (click)="delete()">Delete Data</a></li>
-    </ul>
-  </div>
-</div>
-
-<div class="row medium-8 large-7 columns" style="margin-top: 16px;">
-  <router-outlet (activate)='onActivate($event)'></router-outlet>
-
-
-<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
-<script>
-  $(document).foundation();
-</script>
-
+<mat-toolbar color="primary" class="mat-elevation-z6 app-navbar">
+  <span style="padding-left: 16px; padding-right:16px; font-size: 14px;">Flow</span>
+  <button mat-button [routerLink]="[ '/display' ]" routerLinkActive="active" *ngIf="fileExist">Display</button>
+  <button mat-button [routerLink]="[ '/preprocess' ]" routerLinkActive="active" *ngIf="fileExist">Preprocess</button>
+  <button mat-button [routerLink]="[ '/filter' ]" routerLinkActive="active" *ngIf="fileExist">Filter</button>
+  <button mat-button [routerLink]="[ '/graph' ]" routerLinkActive="active" *ngIf="fileExist">Graph</button>
+  <span class="fillSpace"></span>
+  <button mat-raised-button color="warn" class="button alert" (click)="delete()" *ngIf="fileExist">Delete Data</button>
+</mat-toolbar>
+<router-outlet (activate)='onActivate($event)'></router-outlet>

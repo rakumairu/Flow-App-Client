@@ -1,6 +1,19 @@
-<div class="blog-post">
-  <h3>Graph Visualization</h3>
-  <button class="button" (click)="controlFlow()">Control Flow</button>
-  <button class="button" (click)="dottedChart()">Dotted Chart</button>
+<mat-progress-bar *ngIf="value > 0" [value]='value' color='primary'></mat-progress-bar>
+<div class="page-header">
+  <h1>Graph Visualization</h1>
+</div>
+
+<nav mat-tab-nav-bar dynamicHeight color='accent'>
+  <span class="toolbar-flex"></span>
+  <a mat-tab-link (click)="controlFlow()" [active]="activeTab == 0">Control Flow</a>
+  <a mat-tab-link (click)="dottedChart()" [active]="activeTab == 1">Dotted Chart</a>
+  <span class="toolbar-flex"></span>
+</nav>
+
+<div class="content">
   <router-outlet></router-outlet>
 </div>
+<!-- <div class="blog-post">
+  <button class="button" (click)="controlFlow()">Control Flow</button>
+  <button class="button" (click)="dottedChart()">Dotted Chart</button>
+</div> -->
