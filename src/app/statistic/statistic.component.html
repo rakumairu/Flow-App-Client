@@ -1,0 +1,76 @@
+<mat-progress-bar *ngIf="value > 0" [value]='value' color='primary'></mat-progress-bar>
+<div class="page-header">
+    <h1>Statistic Data</h1>
+</div>
+
+<div class="page-content">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Log Summary</mat-card-title>
+            <mat-card-subtitle>Summary about events in the log</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Total number of process instances: <strong>{{ totalCase }}</strong></p>
+            <p>Total number of events: <strong>{{ totalEvent }}</strong></p>
+            <p>Total event classes: <strong>{{ jenisEvent }}</strong></p>
+        </mat-card-content>
+        <mat-card-actions>
+
+        </mat-card-actions>
+    </mat-card>
+    <br>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>All Event</mat-card-title>
+            <mat-card-subtitle>List of all event and its occurance</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <table mat-table matSort [dataSource]="eventOccurance" style="width: 100%;">
+                <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column }} </th>
+                    <td mat-cell *matCellDef="let element"> {{ element[column] }} </td>
+                </ng-container>
+                
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+            </table>
+        </mat-card-content>
+    </mat-card>
+    <br>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Start Event</mat-card-title>
+            <mat-card-subtitle>List of all event that act as the begining of a case and its occurance</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <table mat-table matSort [dataSource]="startOccurance" style="width: 100%;">
+                <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column }} </th>
+                    <td mat-cell *matCellDef="let element"> {{ element[column] }} </td>
+                </ng-container>
+                
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+            </table>
+        </mat-card-content>
+    </mat-card>
+    <br>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>End Event</mat-card-title>
+            <mat-card-subtitle>List of all event that act as the ending of a case and its occurance</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <table mat-table matSort [dataSource]="endOccurance" style="width: 100%;">
+                <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column }} </th>
+                    <td mat-cell *matCellDef="let element"> {{ element[column] }} </td>
+                </ng-container>
+                
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+            </table>
+        </mat-card-content>
+    </mat-card>
+    <br>
+</div>

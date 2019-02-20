@@ -1,3 +1,78 @@
-<p>
-  filter works!
-</p>
+<mat-progress-bar *ngIf="value > 0" [value]='value' color='primary'></mat-progress-bar>
+<div class="page-header">
+    <h1>Simple Heuristic Filtering</h1>
+</div>
+
+<div class="page-content">
+    <mat-horizontal-stepper labelPosition='bottom' (selectionChange)='stepChange($event)'>
+        <mat-step>
+            <ng-template matStepLabel>Start Event</ng-template>
+            <mat-card *ngIf="startReady">
+                <mat-card-header>
+                    <mat-card-title>Start Event</mat-card-title>
+                    <mat-card-subtitle>Choose starting event that you want to use</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <form #start='ngForm' (submit)="submitStart(start)">
+                        <mat-grid-list cols='4' rowHeight='60px'>
+                            <mat-grid-tile *ngFor="let data of startData, let value = null">
+                                <mat-checkbox [(ngModel)]='value' [name]='data'>{{ data }}</mat-checkbox>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                        <button mat-raised-button id="startSubmit" type="submit" name="submit" class="button" style="display: none;">Submit</button>
+                    </form>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button color='primary' onclick="startSubmit.click();">Next</button>
+                    <button id='startNext' mat-raised-button matStepperNext style="display: none;">Next</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>End Event</ng-template>
+            <mat-card *ngIf="endReady">
+                <mat-card-header>
+                    <mat-card-title>End Event</mat-card-title>
+                    <mat-card-subtitle>Choose ending event that you want to use</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <form #end='ngForm' (submit)="submitEnd(end)">
+                        <mat-grid-list cols='4' rowHeight='60px'>
+                            <mat-grid-tile *ngFor="let data of endData, let value = null">
+                                <mat-checkbox [(ngModel)]='value' [name]='data'>{{ data }}</mat-checkbox>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                        <button mat-raised-button id="endSubmit" type="submit" name="submit" class="button" style="display: none;">Submit</button>
+                    </form>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button color='primary' onclick="endSubmit.click();">Next</button>
+                    <button id='endNext' mat-raised-button matStepperNext style="display: none;">Next</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>All Event</ng-template>
+            <mat-card *ngIf="allReady">
+                <mat-card-header>
+                    <mat-card-title>All Event</mat-card-title>
+                    <mat-card-subtitle>Choose events that you want to use</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <form #all='ngForm' (submit)="submitAll(all)">
+                        <mat-grid-list cols='4' rowHeight='60px'>
+                            <mat-grid-tile *ngFor="let data of allData, let value = null">
+                                <mat-checkbox [(ngModel)]='value' [name]='data'>{{ data }}</mat-checkbox>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                        <button mat-raised-button id="allSubmit" type="submit" name="submit" class="button" style="display: none;">Submit</button>
+                    </form>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button color='primary' onclick="allSubmit.click();">Next</button>
+                    <!-- <button id='startNext' mat-raised-button matStepperNext style="display: none;">Next</button> -->
+                </mat-card-actions>
+            </mat-card>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>

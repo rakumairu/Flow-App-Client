@@ -9,12 +9,18 @@ export class DataServicesService {
 
   public title
   // public fileExist = false
-  public _displayUrl = 'http://127.0.0.1:5000/api/display'
-  public _preprocessUrl = 'http://127.0.0.1:5000/api/prepos'
-  public _controlFlowUrl = 'http://127.0.0.1:5000/api/controlflow'
-  public _dottedChartUrl = 'http://127.0.0.1:5000/api/dottedchart'
-  public _filesUrl = 'http://127.0.0.1:5000/api/files'
-  public _existUrl = 'http://127.0.0.1:5000/api/exist'
+  public _ip = 'http://127.0.0.1:5000/'
+  public _displayUrl = this._ip + 'api/display'
+  public _preprocessUrl = this._ip + 'api/prepos'
+  public _controlFlowUrl = this._ip + 'api/controlflow'
+  public _dottedChartUrl = this._ip + 'api/dottedchart'
+  public _filesUrl = this._ip + 'api/files'
+  public _existUrl = this._ip + 'api/exist'
+  public _aliasUrl = this._ip + 'api/alias'
+  public _joinUrl = this._ip + 'api/join'
+  public _dropUrl = this._ip + 'api/drop'
+  public _statisticUrl = this._ip + 'api/statistic'
+  public _filterUrl = this._ip + 'api/filter'
 
   constructor(private http: HttpClient) { }
 
@@ -75,6 +81,62 @@ export class DataServicesService {
 
   delete() {
     return this.http.delete(this._filesUrl)
+  }
+
+  getAlias() {
+    return this.http.get(this._aliasUrl)
+  }
+
+  sendAlias(data) {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    }
+    return this.http.post(this._aliasUrl, data, options)
+  }
+
+  getJoin() {
+    return this.http.get(this._joinUrl)
+  }
+
+  sendJoin(data) {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    }
+    return this.http.post(this._joinUrl, data, options)
+  }
+
+  getDrop() {
+    return this.http.get(this._dropUrl)
+  }
+
+  sendDrop(data) {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.post(this._dropUrl, data, options)
+  }
+
+  getStatistic() {
+    return this.http.get(this._statisticUrl)
+  }
+
+  getFilter() {
+    return this.http.get(this._filterUrl)
+  }
+
+  sendFilter(data) {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.post(this._filterUrl, data, options)
   }
 
 }

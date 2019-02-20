@@ -7,6 +7,7 @@ import { FilterComponent } from './filter/filter.component';
 import { GraphComponent } from './graph/graph.component';
 import { ControlFlowComponent } from './control-flow/control-flow.component';
 import { DottedChartComponent } from './dotted-chart/dotted-chart.component';
+import { StatisticComponent } from './statistic/statistic.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/upload', pathMatch: 'full' },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'display', component: DisplayComponent },
   { path: 'preprocess', component: PreprocessComponent },
   { path: 'filter', component: FilterComponent },
+  { path: 'statistic', component: StatisticComponent },
   {
     path: 'graph', component: GraphComponent,
     children: [

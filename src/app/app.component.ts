@@ -29,6 +29,7 @@ export class AppComponent implements OnInit {
       if (data.status == 'success') {
         this.fileExist = true
       } else {
+        // TODO: handle route ke upload kalo ga ada
         this.fileExist = false
       }
     })

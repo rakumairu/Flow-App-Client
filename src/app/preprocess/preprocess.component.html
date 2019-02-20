@@ -4,55 +4,138 @@
 </div>
 
 <div class="page-content">
-    <mat-horizontal-stepper labelPosition='bottom'>
+    <mat-horizontal-stepper labelPosition='bottom' (selectionChange)='stepChange($event)'>
         <mat-step>
-            <ng-template matStepLabel>Choose The Attributes</ng-template>
-            <!-- <form *ngIf="viewReady" #form="ngForm" (ngSubmit)="onSubmit(form)">
-                <label>Case Id
-                    <select name="case_id" id="case_id" [(ngModel)]="case_id" required>
-                        <option *ngFor="let h of head; let i = index" [ngValue]="i">{{ h }}</option>
-                    </select>
-                </label>
-                <label>Task
-                    <select name="task" id="task" [(ngModel)]="task" required>
-                      <option *ngFor="let h of head; let i = index" [ngValue]="i">{{ h }}</option>
-                    </select>
-                </label>
-                <label>Timestamp
-                    <select name="timestamp" id="timestamp" [(ngModel)]="timestamp" required>
-                      <option *ngFor="let h of head; let i = index" [ngValue]="i">{{ h }}</option>
-                    </select>
-                </label>
-                <button type="submit" name="submit" class="button">Preprocess</button>
-            </form> -->
-            <form *ngIf="viewReady" #form="ngForm" (ngSubmit)="onSubmit(form)">
-                <h4>Case ID</h4>
-                <mat-form-field>
-                    <mat-select placeholder="case id" name='case_id' [(ngModel)]='case_id' required>
-                        <mat-option *ngFor="let h of head; let i = index" [value]="i">{{ h }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <h4>Task</h4>
-                <mat-form-field>
-                    <mat-select placeholder="task" name='task' [(ngModel)]='task' required>
-                        <mat-option *ngFor="let h of head; let i = index" [value]="i">{{ h }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <h4>Timestamp</h4>
-                <mat-form-field>
-                    <mat-select placeholder="timestamp" name='timestamp' [(ngModel)]='timestamp' required>
-                        <mat-option *ngFor="let h of head; let i = index" [value]="i">{{ h }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <div>
-                    <!-- <button mat-button matStepperPrevious>Back</button> -->
-                    <button mat-raised-button type="submit" name="submit" class="button">Preprocess</button>
-                </div>
-            </form>
-            <button mat-button matStepperNext id="nextButton" style="display: none;">Next</button>
+            <ng-template matStepLabel>Alias Data</ng-template>
+            <mat-card *ngIf="aliasReady">
+                <mat-card-header>
+                    <mat-card-title>Alias Data</mat-card-title>
+                    <mat-card-subtitle>Give alias to your data and filter out certain value that not needed</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-form-field>
+                        <mat-select [(value)]='selectedValueAlias' placeholder="Choose Column" required (selectionChange)="aliasColumnChoosen($event)" style="width: 100%;">
+                            <mat-option *ngFor="let col of aliasColumn" [value]="col">{{ col }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <form *ngIf="aliasChoosenColumn" #alias="ngForm" (ngSubmit)="submitAlias(alias)">
+                        <h4>Value List</h4>
+                        <small>Leave out the value that you want to get rid off</small>
+                        <mat-grid-list cols="4" rowHeight="60px">
+                            <mat-grid-tile *ngFor="let data of aliasData[aliasChoosenColumn], let i = index, let value = null">
+                                <mat-form-field style="width: 100%;">
+                                    <input matInput [id]='data' [name]='data' type="text" [placeholder]='data' [(ngModel)]='value'>
+                                </mat-form-field>
+                                <button type="button" mat-button mat-icon-button aria-label="Clear" (click)="value=data">
+                                    <mat-icon>assignment</mat-icon>
+                                </button>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                        <button mat-raised-button id="aliasSubmit" type="submit" name="submit" class="button" style="display: none;">Submit</button>
+                    </form>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button onclick="aliasSubmit.click();">Submit</button>
+                    <button mat-raised-button matStepperNext color='primary'>Next</button>
+                </mat-card-actions>
+            </mat-card>
         </mat-step>
-        <mat-step label="Filtering">
-            
+        <mat-step>
+            <ng-template matStepLabel>Join Column</ng-template>
+            <mat-card *ngIf="joinReady">
+                <mat-card-header>
+                    <mat-card-title>Join Column</mat-card-title>
+                    <mat-card-subtitle>Join two column to new column</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <form *ngIf="joinColumn" #join='ngForm' (ngSubmit)='submitJoin(join)'>
+                        <mat-form-field style="width: 100%;">
+                            <mat-select name='col1' placeholder="First Column" required ngModel>
+                                <mat-option *ngFor="let col of joinColumn" [value]="col">{{ col }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field style="width: 100%;">
+                            <mat-select name='col2' placeholder="Second Column" required ngModel>
+                                <mat-option *ngFor="let col of joinColumn" [value]="col">{{ col }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field style="width: 100%;">
+                            <input matInput name='name' type="text" placeholder='New column name' ngModel required>
+                        </mat-form-field>
+                        <mat-form-field style="width: 100%;">
+                            <input matInput name='delimiter' type="text" placeholder='Delimiter that will be used to separate value from those column' ngModel>
+                        </mat-form-field>
+                        <button mat-raised-button id="joinSubmit" type="submit" name="submit" class="button" style="display: none;">Submit</button>
+                    </form>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button matStepperPrevious color='primary'>Back</button>
+                    <button mat-raised-button onclick="joinSubmit.click();">Submit</button>
+                    <button mat-raised-button matStepperNext color='primary'>Next</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Drop Column</ng-template>
+            <mat-card *ngIf="dropReady">
+                <mat-card-header>
+                    <mat-card-title>Drop Column</mat-card-title>
+                    <mat-card-subtitle>Drop column that aren't needed</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <form *ngIf="dropColumn" #drop='ngForm' (ngSubmit)='submitDrop(drop)'>
+                        <mat-form-field style="width: 100%;">
+                            <mat-select name='col' placeholder="Column that will be dropped" required ngModel>
+                                <mat-option *ngFor="let col of dropColumn" [value]="col">{{ col }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <button mat-raised-button id="dropSubmit" type="submit" name="submit" class="button" style="display: none;">Submit</button>
+                    </form>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button matStepperPrevious color='primary'>Back</button>
+                    <button mat-raised-button onclick="dropSubmit.click();">Submit</button>
+                    <button mat-raised-button matStepperNext color='primary'>Next</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Choose Column</ng-template>
+            <mat-card *ngIf="chooseReady">
+                <mat-card-header>
+                    <mat-card-title>Choose Column</mat-card-title>
+                    <mat-card-subtitle>Chosse 3 column that will be used as case id, event and timestamp</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <form #choose="ngForm" (ngSubmit)="submitChoose(choose)">
+                        <h4>Case ID</h4>
+                        <mat-form-field>
+                            <mat-select placeholder="case id" name='case_id' [(ngModel)]='case_id' required style="width: 100%;">
+                                <mat-option *ngFor="let h of chooseData; let i = index" [value]="i">{{ h }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <h4>Task</h4>
+                        <mat-form-field>
+                            <mat-select placeholder="task" name='task' [(ngModel)]='task' required style="width: 100%;">
+                                <mat-option *ngFor="let h of chooseData; let i = index" [value]="i">{{ h }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <h4>Timestamp</h4>
+                        <mat-form-field>
+                            <mat-select placeholder="timestamp" name='timestamp' [(ngModel)]='timestamp' required style="width: 100%;">
+                                <mat-option *ngFor="let h of chooseData; let i = index" [value]="i">{{ h }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div>
+                            <button mat-raised-button id='chooseSubmit' type="submit" name="submit" class="button" color="primary" style="display: none;">Preprocess</button>
+                        </div>
+                    </form>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button matStepperPrevious color='primary'>Back</button>
+                    <button mat-raised-button onclick="chooseSubmit.click();">Submit</button>
+                </mat-card-actions>
+            </mat-card>
         </mat-step>
     </mat-horizontal-stepper>
 </div>

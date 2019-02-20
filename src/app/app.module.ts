@@ -14,6 +14,7 @@ import { ControlFlowComponent } from './control-flow/control-flow.component';
 import { DottedChartComponent } from './dotted-chart/dotted-chart.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { StatisticComponent } from './statistic/statistic.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { FormsModule } from '@angular/forms';
     GraphComponent,
     FilesComponent,
     ControlFlowComponent,
-    DottedChartComponent
+    DottedChartComponent,
+    StatisticComponent
   ],
   imports: [
     BrowserModule,
