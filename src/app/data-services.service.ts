@@ -14,12 +14,16 @@ export class DataServicesService {
   public _preprocessUrl = this._ip + 'api/prepos'
   public _controlFlowUrl = this._ip + 'api/controlflow'
   public _dottedChartUrl = this._ip + 'api/dottedchart'
+  public _dottedChartdurationUrl = this._ip + 'api/dottedchartduration'
   public _filesUrl = this._ip + 'api/files'
   public _existUrl = this._ip + 'api/exist'
+  public _convertUrl = this._ip + 'api/convert'
   public _aliasUrl = this._ip + 'api/alias'
   public _joinUrl = this._ip + 'api/join'
   public _dropUrl = this._ip + 'api/drop'
-  public _statisticUrl = this._ip + 'api/statistic'
+  public _statisticStartUrl = this._ip + 'api/statisticstart'
+  public _statisticEndUrl = this._ip + 'api/statisticend'
+  public _statisticSummaryUrl = this._ip + 'api/statisticsummary'
   public _filterUrl = this._ip + 'api/filter'
 
   constructor(private http: HttpClient) { }
@@ -70,6 +74,10 @@ export class DataServicesService {
     return this.http.get(this._dottedChartUrl)
   }
 
+  dottedChartDuration() {
+    return this.http.get(this._dottedChartdurationUrl)
+  }
+
   upload(formData: FormData) {
     let options = {
       headers: new HttpHeaders({
@@ -81,6 +89,19 @@ export class DataServicesService {
 
   delete() {
     return this.http.delete(this._filesUrl)
+  }
+
+  getConvert() {
+    return this.http.get(this._convertUrl)
+  }
+
+  sendConvert(data) {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    }
+    return this.http.post(this._convertUrl, data, options)
   }
 
   getAlias() {
@@ -122,8 +143,16 @@ export class DataServicesService {
     return this.http.post(this._dropUrl, data, options)
   }
 
-  getStatistic() {
-    return this.http.get(this._statisticUrl)
+  getStatisticStart() {
+    return this.http.get(this._statisticStartUrl)
+  }
+
+  getStatisticEnd() {
+    return this.http.get(this._statisticEndUrl)
+  }
+
+  getStatisticSummary() {
+    return this.http.get(this._statisticSummaryUrl)
   }
 
   getFilter() {

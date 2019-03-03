@@ -51,14 +51,14 @@ export class ControlFlowComponent implements OnInit {
       let count = [0]
       for (let task2 in this.eventLog[task]) {
         let c = this.ymin + (this.ymax - this.ymin) * (this.eventLog[task][task2] - this.min) / (this.max - this.min)
-        this.content += '\n' + task + ' -> ' + task2 + ' [label="' + this.eventLog[task][task2] + '" style="stroke-width: ' + c + '"]'
+        this.content += '\n' + '"' + task + '"' +  ' -> ' + '"' + task2 + '"'  + ' [label="' + this.eventLog[task][task2] + '" style="stroke-width: ' + c + '"]'
         count.push(count.pop() + this.eventLog[task][task2])
       }
       let c = (this.max - count[0]) / (this.max - this.min) * 255
       if (c < 130) {
-        this.content += '\n' + task + ` [labelType="html" label="<div style='text-align:center;color: rgb(255,255,255)'>` + task + '<br>(' + count[0] + ')</div" style="fill: rgb(' + c + ',' + c + ',' + c + ')"]'
+        this.content += '\n' + '"' + task + '"'  + ` [labelType="html" label="<div style='text-align:center;color: rgb(255,255,255)'>` + task + '<br>(' + count[0] + ')</div" style="fill: rgb(' + c + ',' + c + ',' + c + ')"]'
       } else {
-        this.content += '\n' + task + ` [labelType="html" label="<div style='text-align:center;color: rgb(0,0,0)'>` + task + '<br>(' + count[0] + ')</div" style="fill: rgb(' + c + ',' + c + ',' + c + ')"]'
+        this.content += '\n' + '"' + task + '"'  + ` [labelType="html" label="<div style='text-align:center;color: rgb(0,0,0)'>` + task + '<br>(' + count[0] + ')</div" style="fill: rgb(' + c + ',' + c + ',' + c + ')"]'
       }
     }
     this.content += '}'

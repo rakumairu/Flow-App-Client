@@ -4,27 +4,29 @@
 </div>
 
 <div class="page-content">
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>Log Summary</mat-card-title>
-            <mat-card-subtitle>Summary about events in the log</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
+    <mat-accordion>
+        <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Log Summary
+                </mat-panel-title>
+                <mat-panel-description>
+                    Summary of events in the log
+                </mat-panel-description>
+            </mat-expansion-panel-header>
             <p>Total number of process instances: <strong>{{ totalCase }}</strong></p>
             <p>Total number of events: <strong>{{ totalEvent }}</strong></p>
             <p>Total event classes: <strong>{{ jenisEvent }}</strong></p>
-        </mat-card-content>
-        <mat-card-actions>
-
-        </mat-card-actions>
-    </mat-card>
-    <br>
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>All Event</mat-card-title>
-            <mat-card-subtitle>List of all event and its occurance</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    All Event
+                </mat-panel-title>
+                <mat-panel-description>
+                    List of all event and it's occurance
+                </mat-panel-description>
+            </mat-expansion-panel-header>
             <table mat-table matSort [dataSource]="eventOccurance" style="width: 100%;">
                 <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column }} </th>
@@ -34,15 +36,16 @@
                 <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
                 <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
             </table>
-        </mat-card-content>
-    </mat-card>
-    <br>
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>Start Event</mat-card-title>
-            <mat-card-subtitle>List of all event that act as the begining of a case and its occurance</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Start Event
+                </mat-panel-title>
+                <mat-panel-description>
+                    List of all event that act as the beginning of a case and its occurance
+                </mat-panel-description>
+            </mat-expansion-panel-header>
             <table mat-table matSort [dataSource]="startOccurance" style="width: 100%;">
                 <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column }} </th>
@@ -52,15 +55,16 @@
                 <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
                 <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
             </table>
-        </mat-card-content>
-    </mat-card>
-    <br>
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>End Event</mat-card-title>
-            <mat-card-subtitle>List of all event that act as the ending of a case and its occurance</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    End Event
+                </mat-panel-title>
+                <mat-panel-description>
+                    List of all event that act as the ending of a case and its occurance
+                </mat-panel-description>
+            </mat-expansion-panel-header>
             <table mat-table matSort [dataSource]="endOccurance" style="width: 100%;">
                 <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column }} </th>
@@ -70,7 +74,7 @@
                 <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
                 <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
             </table>
-        </mat-card-content>
-    </mat-card>
-    <br>
+        </mat-expansion-panel>
+    </mat-accordion>
 </div>
+<br>

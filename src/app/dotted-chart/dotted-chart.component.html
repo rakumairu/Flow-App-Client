@@ -1,1 +1,8 @@
-<div id="chartContainer" style="height: 500px; width: 100%;"></div>
+<mat-form-field>
+    <mat-select placeholder="Choose Sort Type" (selectionChange)="changeView($event)" style="width: 100%;" [disabled]='!contentReady'>
+        <mat-option value='starttime'>Sort by start time</mat-option>
+        <mat-option value='duration'>Sort by duration</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<div id="chart" style="height: 100%; width: 100%;"><p *ngIf="!contentReady"><small>Loading....</small></p></div>

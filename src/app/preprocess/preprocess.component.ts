@@ -13,15 +13,19 @@ import { catchError, map, tap } from 'rxjs/operators'
 })
 export class PreprocessComponent implements OnInit {
 
-  // private viewReady = false
-  // private step1 = false
+  // Progress Bar
   private value = 10
+  // Convert Time
+  private convertReady = false
+  private timeColumn
   // Alias
   private aliasReady = false
   private aliasColumn
   private aliasData
   private aliasChoosenColumn
   private selectedValueAlias
+  private aliasValue: Array<String> = []
+  private newColumn = false
   // Join
   private joinReady = false
   private joinColumn
@@ -38,15 +42,14 @@ export class PreprocessComponent implements OnInit {
 
   ngOnInit() {
     this.value = 25
-    // Alias
-    this.dataService.getAlias().subscribe((data: any) => {
+    // Convert Time
+    this.dataService.getConvert().subscribe((data: any) => {
       this.value = 50
       data = JSON.parse(data)
       this.value = 75
       if (data.status == 'success') {
-        this.aliasColumn = data.data.column
-        this.aliasData = data.data.data
-        this.aliasReady = true
+        this.timeColumn = data.data
+        this.convertReady = true
         this.value = 100
       }
     })
@@ -55,6 +58,18 @@ export class PreprocessComponent implements OnInit {
   stepChange(event) {
     this.value = 25
     if (event.selectedIndex == 0) {
+      this.convertReady = false
+      this.dataService.getConvert().subscribe((data: any) => {
+        this.value = 50
+        data = JSON.parse(data)
+        this.value = 75
+        if (data.status == 'success') {
+          this.timeColumn = data.data
+          this.convertReady = true
+          this.value = 100
+        }
+      })
+    } else if (event.selectedIndex == 1) {
       this.aliasReady = false
       this.dataService.getAlias().subscribe((data: any) => {
         this.value = 50
@@ -67,7 +82,7 @@ export class PreprocessComponent implements OnInit {
           this.value = 100
         }
       })
-    } else if (event.selectedIndex == 1) {
+    } else if (event.selectedIndex == 2) {
       this.joinReady = false
       this.dataService.getJoin().subscribe((data: any) => {
         this.value = 50
@@ -79,7 +94,7 @@ export class PreprocessComponent implements OnInit {
           this.value = 100
         }
       })
-    } else if (event.selectedIndex == 2) {
+    } else if (event.selectedIndex == 3) {
       this.dropReady = false
       this.dataService.getDrop().subscribe((data: any) => {
         this.value = 50
@@ -91,7 +106,7 @@ export class PreprocessComponent implements OnInit {
           this.value = 100
         }
       })
-    } else if (event.selectedIndex == 3) {
+    } else if (event.selectedIndex == 4) {
       this.dataService.preprocessHead().subscribe((data: any) => {
         this.value = 50
         data = JSON.parse(data)
@@ -104,14 +119,62 @@ export class PreprocessComponent implements OnInit {
       })
     }
   }
+
+  submitConvert(time: NgForm) {
+    this.value = 25
+    let data = JSON.stringify(
+      {
+        'data': time.value
+      }
+    )
+    this.dataService.sendConvert(data).subscribe((data:any) => {
+      this.value = 50
+      data = JSON.parse(data)
+      this.value = 75
+      if (data.status == 'success') {
+        time.resetForm()
+        this.timeColumn = data.data
+        this.value = 100
+      }
+    })
+  }
   
   // ALIAS
   copyAlias(data) {
     document.getElementById(data).innerHTML = data
   }
 
-  aliasColumnChoosen(event) {
+  aliasColumnChoosen(event, alias: NgForm) {
     this.aliasChoosenColumn = event.value
+    if (this.aliasValue.length != 0) {
+      this.aliasValue = []
+    }
+    
+    for (let dt in this.aliasData[this.aliasChoosenColumn]) {
+      this.aliasValue.push(null)
+    }
+    alias.resetForm()
+  }
+
+  fillNumber() {
+    let angka = 1
+    for (let val in this.aliasValue) {
+      this.aliasValue[angka - 1] = String(angka)
+      angka++
+    }
+  }
+
+  originalValue() {
+    let idx = 0
+    for (let val in this.aliasValue) {
+      this.aliasValue[idx] = this.aliasData[this.aliasChoosenColumn][idx]
+      idx+=1
+    }
+    // this.aliasValue = this.aliasData[this.aliasChoosenColumn]
+  }
+
+  toggleNewColumn(event) {
+    this.newColumn = event.checked
   }
   
   submitAlias(alias: NgForm) {

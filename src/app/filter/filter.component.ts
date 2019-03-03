@@ -12,11 +12,17 @@ import { NgForm } from '@angular/forms';
 export class FilterComponent implements OnInit {
   
   private value
+  // Start
   private startData
+  private selectedStart: Array<String> = []
   private startReady = false
+  // End
   private endData
+  private selectedEnd: Array<String> = []
   private endReady = false
+  // All
   private allData
+  private selectedAll: Array<String> = []
   private allReady = false
   
   constructor(private titleService: Title, private dataService: DataServicesService, private router: Router) {
@@ -25,14 +31,18 @@ export class FilterComponent implements OnInit {
   
   ngOnInit() {
     this.value = 25
-    this.dataService.getFilter().subscribe((data:any) => {
+    this.dataService.getStatisticStart().subscribe((data:any) => {
       this.value = 50
       data = JSON.parse(data)
       this.value = 75
       if (data.status == 'success') {
-        this.startData = data.data.start
+        this.startData = data.data.start_occurance
         this.startReady = true
         this.value = 100
+      } else if (data.message == 'Data is not finished') {
+        this.router.navigate(['preprocess'])
+        this.value = 100
+        console.log(data.message)
       }
     })
   }
@@ -41,58 +51,61 @@ export class FilterComponent implements OnInit {
     this.value = 25
     if (event.selectedIndex == 0) {
       this.startReady = false
-      this.dataService.getFilter().subscribe((data:any) => {
+      this.dataService.getStatisticStart().subscribe((data:any) => {
         this.value = 50
         data = JSON.parse(data)
         this.value = 75
         if (data.status == 'success') {
-          this.startData = data.data.start
+          this.startData = data.data.start_occurance
           this.startReady = true
           this.value = 100
         }
       })
     } else if (event.selectedIndex == 1) {
       this.endReady = false
-      this.dataService.getFilter().subscribe((data:any) => {
+      this.dataService.getStatisticEnd().subscribe((data:any) => {
         this.value = 50
         data = JSON.parse(data)
         this.value = 75
         if (data.status == 'success') {
-          this.endData = data.data.end
+          this.endData = data.data.end_occurance
           this.endReady = true
           this.value = 100
         }
       })
     } else if (event.selectedIndex == 2) {
       this.allReady = false
-      this.dataService.getFilter().subscribe((data:any) => {
+      this.dataService.getStatisticSummary().subscribe((data:any) => {
         this.value = 50
         data = JSON.parse(data)
         this.value = 75
         if (data.status == 'success') {
-          this.allData = data.data.all
+          this.allData = data.data.event_occurance
+          console.log(this.allData)
           this.allReady = true
           this.value = 100
         }
       })
     }
   }
-
+  
   // START
-  submitStart(start: NgForm) {
-    this.value = 25
-    let checked = []
-
-    for (let x in start.value) {
-      if (start.value[x] == true) {
-        checked.push(x)
+  sliderStart(event) {
+    this.selectedStart = []
+    this.startData.forEach(element => {
+      if (element.relative >= event.value) {
+        this.selectedStart.push(element.event)
       }
-    }
+    });
+  }
+
+  submitStart() {
+    this.value = 25
 
     let data = JSON.stringify(
       {
         'data' : {
-          'start': checked
+          'start': this.selectedStart
         }
       }
     )
@@ -109,20 +122,22 @@ export class FilterComponent implements OnInit {
   }
 
   // END
-  submitEnd(end: NgForm) {
-    this.value = 25
-    let checked = []
-
-    for (let x in end.value) {
-      if (end.value[x] == true) {
-        checked.push(x)
+  sliderEnd(event) {
+    this.selectedEnd = []
+    this.endData.forEach(element => {
+      if (element.relative >= event.value) {
+        this.selectedEnd.push(element.event)
       }
-    }
+    });
+  }
+
+  submitEnd() {
+    this.value = 25
 
     let data = JSON.stringify(
       {
         'data' : {
-          'end': checked
+          'end': this.selectedEnd
         }
       }
     )
@@ -139,20 +154,22 @@ export class FilterComponent implements OnInit {
   }
 
   // ALL
-  submitAll(all: NgForm) {
-    this.value - 25
-    let checked = []
-
-    for (let x in all.value) {
-      if (all.value[x] == true) {
-        checked.push(x)
+  sliderAll(event) {
+    this.selectedAll = []
+    this.allData.forEach(element => {
+      if (element.relative >= event.value) {
+        this.selectedAll.push(element.event)
       }
-    }
+    });
+  }
+
+  submitAll() {
+    this.value - 25
 
     let data = JSON.stringify(
       {
         'data' : {
-          'all': checked
+          'all': this.selectedAll
         }
       }
     )
@@ -162,9 +179,8 @@ export class FilterComponent implements OnInit {
       data = JSON.parse(data)
       this.value = 75
       if (data.status == 'success') {
-        // document.getElementById('startNext').click()
-        this.router.navigate(['graph'])
         this.value = 100
+        this.router.navigate(['graph'])
       }
     })
   }

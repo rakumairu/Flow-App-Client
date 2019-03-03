@@ -11,6 +11,12 @@ import { Title } from '@angular/platform-browser';
 export class DottedChartComponent implements OnInit {
 
   private eventLog
+  private sort
+  private eventLogDuration
+  private sortDuration
+  private contentFirst
+  private contentSecond
+  private contentReady = false
 
   constructor(private dataService: DataServicesService, private titleService: Title) {
     this.titleService.setTitle('Dotted Chart')
@@ -20,12 +26,34 @@ export class DottedChartComponent implements OnInit {
     this.dataService.dottedChart().subscribe((data: any) => {
       data = JSON.parse(data)
       if (data.status == 'success') {
-        this.eventLog = data.data
-        this.loadChart(this.initContent())
+        this.eventLog = data.data.data
+        this.sort = data.data.sort
+        this.contentFirst = this.initContent()
+        this.contentReady = true
       } else {
         console.error(data)
       }
     })
+
+    this.dataService.dottedChartDuration().subscribe((data: any) => {
+      data = JSON.parse(data)
+      if (data.status == 'success') {
+        this.eventLogDuration = data.data.data
+        this.sortDuration = data.data.sort
+        this.contentSecond = this.initContentDuration()
+        this.contentReady = true
+      } else {
+        console.error(data)
+      }
+    })
+  }
+
+  changeView(event) {
+    if (event.value == 'starttime') {
+      this.loadChart(this.contentFirst)
+    } else if (event.value == 'duration') {
+      this.loadChart(this.contentSecond)
+    }
   }
 
   initContent() {
@@ -34,18 +62,51 @@ export class DottedChartComponent implements OnInit {
       let dataPoint = []
       for (let idx in this.eventLog[row].case_id) {
         let cid = this.eventLog[row].case_id[idx]
-        let tstamp = new Date(this.eventLog[row].timestamp[idx]).getTime()
+        let tstamp = new Date(this.eventLog[row].timestamp[idx])
         dataPoint.push(
           {
             x: tstamp,
-            y: cid
+            y: this.sort[cid],
+            case_id: cid
           }
         )
       }
       content.push(
         {
           type: "scatter",
-          toolTipContent: "<span><b>{name}</b></span><br/><b> Time:</b> {x}<br/><b> Case ID:</b></span> {y}",
+          toolTipContent: "<span><b>{name}</b></span><br/><b> Time:</b> {x}<br/><b> Case ID:</b></span> {case_id}",
+          name: row,
+          showInLegend: true,
+          dataPoints: dataPoint
+        }
+      )
+    }
+    return content
+  }
+
+  initContentDuration() {
+    let content = []
+    for (let row in this.eventLogDuration) {
+      let dataPoint = []
+      for (let idx in this.eventLogDuration[row].case_id) {
+        let cid = this.eventLogDuration[row].case_id[idx]
+        let tstamp = new Date(1970,0,1)
+        let parts = this.eventLogDuration[row].timestamp[idx].match(/(\d+)\:(\d+)/)
+        tstamp.setHours(parseInt(parts[1]))
+        tstamp.setMinutes(parseInt(parts[2]))
+        dataPoint.push(
+          {
+            x: tstamp,
+            y: this.sortDuration[cid],
+            case_id: cid,
+            time: this.eventLogDuration[row].timestamp[idx]
+          }
+        )
+      }
+      content.push(
+        {
+          type: "scatter",
+          toolTipContent: "<span><b>{name}</b></span><br/><b> Time:</b> {time}<br/><b> Case ID:</b></span> {case_id}",
           name: row,
           showInLegend: true,
           dataPoints: dataPoint
@@ -56,7 +117,7 @@ export class DottedChartComponent implements OnInit {
   }
 
   loadChart(content) {
-    let chart = new CanvasJS.Chart('chartContainer', {
+    let chart = new CanvasJS.Chart('chart', {
       zoomEnabled: true,
       animationEnabled: true,
       axisX: {

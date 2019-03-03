@@ -28,7 +28,7 @@ export class StatisticComponent implements OnInit {
 
   ngOnInit() {
     this.value = 25
-    this.dataService.getStatistic().subscribe((data:any) => {
+    this.dataService.getStatisticSummary().subscribe((data:any) => {
       this.value = 50
       data = JSON.parse(data)
       this.value = 75
@@ -37,9 +37,35 @@ export class StatisticComponent implements OnInit {
         this.totalEvent = data.data.total_event
         this.jenisEvent = data.data.jenis_event
         this.eventOccurance = data.data.event_occurance
+        this.value = 100
+      } else if (data.message == 'Data is not finished') {
+        this.router.navigate(['preprocess'])
+        this.value = 100
+        console.log(data.message)
+      }
+    })
+
+    this.dataService.getStatisticStart().subscribe((data:any) => {
+      this.value = 50
+      data = JSON.parse(data)
+      this.value = 75
+      if (data.status == 'success') {
         this.startEvent = data.data.start_event
-        this.endEvent = data.data.end_event
         this.startOccurance = data.data.start_occurance
+        this.value = 100
+      } else if (data.message == 'Data is not finished') {
+        this.router.navigate(['preprocess'])
+        this.value = 100
+        console.log(data.message)
+      }
+    })
+
+    this.dataService.getStatisticEnd().subscribe((data:any) => {
+      this.value = 50
+      data = JSON.parse(data)
+      this.value = 75
+      if (data.status == 'success') {
+        this.endEvent = data.data.end_event
         this.endOccurance = data.data.end_occurance
         this.value = 100
       } else if (data.message == 'Data is not finished') {

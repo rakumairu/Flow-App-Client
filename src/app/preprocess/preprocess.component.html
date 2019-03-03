@@ -6,6 +6,29 @@
 <div class="page-content">
     <mat-horizontal-stepper labelPosition='bottom' (selectionChange)='stepChange($event)'>
         <mat-step>
+            <ng-template matStepLabel>Convert Time</ng-template>
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Convert Time</mat-card-title>
+                    <mat-card-subtitle>Convert time format to ISO format</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <form *ngIf="timeColumn" #time='ngForm' (ngSubmit)='submitConvert(time)'>
+                        <mat-form-field style="width: 100%;">
+                            <mat-select name='time' placeholder="Time Column" required ngModel>
+                                <mat-option *ngFor="let col of timeColumn" [value]="col">{{ col }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <button mat-raised-button id="timeSubmit" type="submit" name="submit" class="button" style="display: none;">Submit</button>
+                    </form>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button matStepperNext>Next</button>
+                    <button mat-raised-button onclick="timeSubmit.click();" style="float: right;" color='primary'>Submit</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-step>
+        <mat-step>
             <ng-template matStepLabel>Alias Data</ng-template>
             <mat-card *ngIf="aliasReady">
                 <mat-card-header>
@@ -14,29 +37,42 @@
                 </mat-card-header>
                 <mat-card-content>
                     <mat-form-field>
-                        <mat-select [(value)]='selectedValueAlias' placeholder="Choose Column" required (selectionChange)="aliasColumnChoosen($event)" style="width: 100%;">
+                        <mat-select [(value)]='selectedValueAlias' placeholder="Choose Column" required (selectionChange)="aliasColumnChoosen($event, alias)" style="width: 100%;">
                             <mat-option *ngFor="let col of aliasColumn" [value]="col">{{ col }}</mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <form *ngIf="aliasChoosenColumn" #alias="ngForm" (ngSubmit)="submitAlias(alias)">
-                        <h4>Value List</h4>
-                        <small>Leave out the value that you want to get rid off</small>
-                        <mat-grid-list cols="4" rowHeight="60px">
-                            <mat-grid-tile *ngFor="let data of aliasData[aliasChoosenColumn], let i = index, let value = null">
-                                <mat-form-field style="width: 100%;">
-                                    <input matInput [id]='data' [name]='data' type="text" [placeholder]='data' [(ngModel)]='value'>
+                    <form #alias="ngForm" (ngSubmit)="submitAlias(alias)">
+                        <div *ngIf="aliasChoosenColumn">
+                            <div>
+                                <button mat-stroked-button type="button" (click)="fillNumber()" style="float: right;" color='primary'>Fill Number</button>
+                                <button mat-stroked-button type="button" (click)="originalValue()" style="float: right;" color='primary'>Current Value</button>
+                                <h4>Value List</h4>
+                                <small>Leave out the value that you want to get rid off</small><br><br>
+                                <mat-slide-toggle (change)='toggleNewColumn($event)'>New Column</mat-slide-toggle><br>
+                                <mat-form-field style="margin-top: 8px;">
+                                    <input matInput id='newColumnName' name='newColumnName' type="text" placeholder='Name for the new column' ngModel [disabled]='!newColumn' [required]='!newColumn'>
                                 </mat-form-field>
-                                <button type="button" mat-button mat-icon-button aria-label="Clear" (click)="value=data">
-                                    <mat-icon>assignment</mat-icon>
-                                </button>
-                            </mat-grid-tile>
-                        </mat-grid-list>
-                        <button mat-raised-button id="aliasSubmit" type="submit" name="submit" class="button" style="display: none;">Submit</button>
+                            </div>
+                            <br>
+                            <mat-grid-list cols="4" rowHeight="60px">
+                                <mat-grid-tile *ngFor="let data of aliasData[aliasChoosenColumn], let i = index">
+                                    <mat-form-field style="width: 100%;">
+                                        <input matInput [id]='data' [name]='data' type="text" [placeholder]='data' [(ngModel)]='aliasValue[i]'>
+                                    </mat-form-field>
+                                    <button type="button" mat-button mat-icon-button aria-label="Clear" (click)="aliasValue[i]=data">
+                                        <mat-icon>assignment</mat-icon>
+                                    </button>
+                                    <button [id]='i' type="button" mat-button (click)="value=i" style="display: none;"></button>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                            <button mat-raised-button id="aliasSubmit" type="submit" name="submit" class="button" style="display: none;">Submit</button>
+                        </div>
                     </form>
-                </mat-card-content>
-                <mat-card-actions>
-                    <button mat-raised-button onclick="aliasSubmit.click();">Submit</button>
-                    <button mat-raised-button matStepperNext color='primary'>Next</button>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-raised-button matStepperPrevious>Back</button>
+                        <button mat-raised-button matStepperNext>Next</button>
+                        <button *ngIf="aliasChoosenColumn" mat-raised-button onclick="aliasSubmit.click();" style="float: right;" color='primary'>Submit</button>
                 </mat-card-actions>
             </mat-card>
         </mat-step>
@@ -69,9 +105,9 @@
                     </form>
                 </mat-card-content>
                 <mat-card-actions>
-                    <button mat-raised-button matStepperPrevious color='primary'>Back</button>
-                    <button mat-raised-button onclick="joinSubmit.click();">Submit</button>
-                    <button mat-raised-button matStepperNext color='primary'>Next</button>
+                    <button mat-raised-button matStepperPrevious>Back</button>
+                    <button mat-raised-button matStepperNext>Next</button>
+                    <button mat-raised-button onclick="joinSubmit.click();" style="float: right;" color='primary'>Submit</button>
                 </mat-card-actions>
             </mat-card>
         </mat-step>
@@ -93,9 +129,9 @@
                     </form>
                 </mat-card-content>
                 <mat-card-actions>
-                    <button mat-raised-button matStepperPrevious color='primary'>Back</button>
-                    <button mat-raised-button onclick="dropSubmit.click();">Submit</button>
-                    <button mat-raised-button matStepperNext color='primary'>Next</button>
+                    <button mat-raised-button matStepperPrevious>Back</button>
+                    <button mat-raised-button matStepperNext>Next</button>
+                    <button mat-raised-button onclick="dropSubmit.click();" style="float: right;" color='primary'>Submit</button>
                 </mat-card-actions>
             </mat-card>
         </mat-step>
@@ -132,8 +168,8 @@
                     </form>
                 </mat-card-content>
                 <mat-card-actions>
-                    <button mat-raised-button matStepperPrevious color='primary'>Back</button>
-                    <button mat-raised-button onclick="chooseSubmit.click();">Submit</button>
+                    <button mat-raised-button matStepperPrevious>Back</button>
+                    <button mat-raised-button onclick="chooseSubmit.click();" style="float: right;" color='primary'>Submit</button>
                 </mat-card-actions>
             </mat-card>
         </mat-step>
