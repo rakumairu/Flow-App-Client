@@ -1,7 +1,9 @@
 # FlowClient
 
 A project that i created as my final assignment to get my bachelor degree
-This project's aim is to provide control flow and dotted chart visualization of event log that will be used as a preliminary step before step into process discovery in Process Mining 
+This project's aim is to provide control flow and dotted chart visualization of event log that will be used as a preliminary step before step into process discovery in Process Mining
+
+This project use [FlowServer](https://gitlab.com/rakumairu/flow-client) which act as a REST API to provide data manipullation that needed to be done
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.4.
 
@@ -34,6 +36,6 @@ Project still a work in progress, and haven't tested in live server yet
 
 ## Author
 
-* **Demaspira Aulia** - [noobdedem](https://github.com/noobdedem) 
+* **Demaspira Aulia** - [rakumairu](https://github.com/rakumairu) 
 
 For further question you can contact me here: demaspiraa@gmail.com
