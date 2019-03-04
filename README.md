@@ -3,7 +3,7 @@
 A project that i created as my final assignment to get my bachelor degree
 This project's aim is to provide control flow and dotted chart visualization of event log that will be used as a preliminary step before step into process discovery in Process Mining
 
-This project use [FlowServer](https://gitlab.com/rakumairu/flow-client) which act as a REST API to provide data manipullation that needed to be done
+This project use [FlowServer](https://gitlab.com/rakumairu/flow-server) which act as a REST API to provide data manipullation that needed to be done
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.4.
 
