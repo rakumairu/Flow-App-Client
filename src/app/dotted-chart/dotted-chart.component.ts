@@ -91,9 +91,10 @@ export class DottedChartComponent implements OnInit {
       for (let idx in this.eventLogDuration[row].case_id) {
         let cid = this.eventLogDuration[row].case_id[idx]
         let tstamp = new Date(1970,0,1)
-        let parts = this.eventLogDuration[row].timestamp[idx].match(/(\d+)\:(\d+)/)
+        let parts = this.eventLogDuration[row].timestamp[idx].match(/(\d+)\:(\d+)\:(\d+)/)
         tstamp.setHours(parseInt(parts[1]))
         tstamp.setMinutes(parseInt(parts[2]))
+        tstamp.setSeconds(parseInt(parts[3]))
         dataPoint.push(
           {
             x: tstamp,
