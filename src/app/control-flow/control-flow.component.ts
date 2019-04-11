@@ -4,6 +4,7 @@ import { select, zoom, event } from 'd3';
 import { render } from 'dagre-d3';
 import { read } from 'graphlib-dot'
 import { Title } from '@angular/platform-browser';
+import { MatSnackBar } from '@angular/material';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class ControlFlowComponent implements OnInit {
   private min
   private content
 
-  constructor(private dataService: DataServicesService, private titleService: Title) {
+  constructor(private dataService: DataServicesService, private titleService: Title, private snackbar: MatSnackBar) {
     this.titleService.setTitle('Control Flow')
   }
 
@@ -35,11 +36,13 @@ export class ControlFlowComponent implements OnInit {
         this.eventLog = data.data.log
         this.max = data.data.max
         this.min = data.data.min
+        console.log(this.eventLog)
         this.initContent()
         this.generate()
-      } else {
-        console.log(data)
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
     })
   }
 
@@ -62,6 +65,7 @@ export class ControlFlowComponent implements OnInit {
       }
     }
     this.content += '}'
+    console.log(this.content)
   }
 
   generate() {

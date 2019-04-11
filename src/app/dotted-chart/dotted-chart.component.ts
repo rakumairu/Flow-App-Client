@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import * as CanvasJS from '../../assets/canvasjs.min.js'
 import { DataServicesService } from '../data-services.service.js';
 import { Title } from '@angular/platform-browser';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-dotted-chart',
@@ -17,8 +18,9 @@ export class DottedChartComponent implements OnInit {
   private contentFirst
   private contentSecond
   private contentReady = false
+  // private progressmode = 'indeterminate'
 
-  constructor(private dataService: DataServicesService, private titleService: Title) {
+  constructor(private dataService: DataServicesService, private titleService: Title, private snackbar: MatSnackBar) {
     this.titleService.setTitle('Dotted Chart')
   }
 
@@ -30,9 +32,10 @@ export class DottedChartComponent implements OnInit {
         this.sort = data.data.sort
         this.contentFirst = this.initContent()
         this.contentReady = true
-      } else {
-        console.error(data)
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
     })
 
     this.dataService.dottedChartDuration().subscribe((data: any) => {
@@ -42,9 +45,10 @@ export class DottedChartComponent implements OnInit {
         this.sortDuration = data.data.sort
         this.contentSecond = this.initContentDuration()
         this.contentReady = true
-      } else {
-        console.error(data)
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
     })
   }
 

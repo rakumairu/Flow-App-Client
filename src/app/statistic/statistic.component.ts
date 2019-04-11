@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataServicesService } from '../data-services.service';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-statistic',
@@ -22,7 +23,7 @@ export class StatisticComponent implements OnInit {
   private displayedColumns = ['event','absolute','relative']
   private columnsToDisplay = this.displayedColumns.slice()
   
-  constructor(private dataService: DataServicesService, private titleService: Title, private router: Router) {
+  constructor(private dataService: DataServicesService, private titleService: Title, private router: Router, private snackbar: MatSnackBar) {
     this.titleService.setTitle('Data Statistic')
   }
 
@@ -37,12 +38,13 @@ export class StatisticComponent implements OnInit {
         this.totalEvent = data.data.total_event
         this.jenisEvent = data.data.jenis_event
         this.eventOccurance = data.data.event_occurance
-        this.value = 100
       } else if (data.message == 'Data is not finished') {
         this.router.navigate(['preprocess'])
-        this.value = 100
-        console.log(data.message)
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
+      this.value = 100
     })
 
     this.dataService.getStatisticStart().subscribe((data:any) => {
@@ -52,12 +54,13 @@ export class StatisticComponent implements OnInit {
       if (data.status == 'success') {
         this.startEvent = data.data.start_event
         this.startOccurance = data.data.start_occurance
-        this.value = 100
       } else if (data.message == 'Data is not finished') {
         this.router.navigate(['preprocess'])
-        this.value = 100
-        console.log(data.message)
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
+      this.value = 100
     })
 
     this.dataService.getStatisticEnd().subscribe((data:any) => {
@@ -67,12 +70,13 @@ export class StatisticComponent implements OnInit {
       if (data.status == 'success') {
         this.endEvent = data.data.end_event
         this.endOccurance = data.data.end_occurance
-        this.value = 100
       } else if (data.message == 'Data is not finished') {
         this.router.navigate(['preprocess'])
-        this.value = 100
-        console.log(data.message)
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
+      this.value = 100
     })
   }
 

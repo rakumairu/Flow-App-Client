@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { DataServicesService } from '../data-services.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-filter',
@@ -25,7 +26,7 @@ export class FilterComponent implements OnInit {
   private selectedAll: Array<String> = []
   private allReady = false
   
-  constructor(private titleService: Title, private dataService: DataServicesService, private router: Router) {
+  constructor(private titleService: Title, private dataService: DataServicesService, private router: Router, private snackbar: MatSnackBar) {
     this.titleService.setTitle('Filter Data')
   }
   
@@ -38,12 +39,13 @@ export class FilterComponent implements OnInit {
       if (data.status == 'success') {
         this.startData = data.data.start_occurance
         this.startReady = true
-        this.value = 100
       } else if (data.message == 'Data is not finished') {
         this.router.navigate(['preprocess'])
-        this.value = 100
-        console.log(data.message)
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
+      this.value = 100
     })
   }
 
@@ -58,8 +60,11 @@ export class FilterComponent implements OnInit {
         if (data.status == 'success') {
           this.startData = data.data.start_occurance
           this.startReady = true
-          this.value = 100
         }
+        this.snackbar.open(data.message, '', {
+          duration: 3000
+        })
+        this.value = 100
       })
     } else if (event.selectedIndex == 1) {
       this.endReady = false
@@ -70,8 +75,11 @@ export class FilterComponent implements OnInit {
         if (data.status == 'success') {
           this.endData = data.data.end_occurance
           this.endReady = true
-          this.value = 100
         }
+        this.snackbar.open(data.message, '', {
+          duration: 3000
+        })
+        this.value = 100
       })
     } else if (event.selectedIndex == 2) {
       this.allReady = false
@@ -81,10 +89,12 @@ export class FilterComponent implements OnInit {
         this.value = 75
         if (data.status == 'success') {
           this.allData = data.data.event_occurance
-          console.log(this.allData)
           this.allReady = true
-          this.value = 100
         }
+        this.snackbar.open(data.message, '', {
+          duration: 3000
+        })
+        this.value = 100
       })
     }
   }
@@ -116,8 +126,11 @@ export class FilterComponent implements OnInit {
       this.value = 75
       if (data.status == 'success') {
         document.getElementById('startNext').click()
-        this.value = 100
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
+      this.value = 100
     })
   }
 
@@ -148,8 +161,11 @@ export class FilterComponent implements OnInit {
       this.value = 75
       if (data.status == 'success') {
         document.getElementById('endNext').click()
-        this.value = 100
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
+      this.value = 100
     })
   }
 
@@ -179,9 +195,12 @@ export class FilterComponent implements OnInit {
       data = JSON.parse(data)
       this.value = 75
       if (data.status == 'success') {
-        this.value = 100
         this.router.navigate(['graph'])
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
+      this.value = 100
     })
   }
   

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { DataServicesService } from '../data-services.service';
 import { Title } from '@angular/platform-browser';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-display',
@@ -25,7 +25,7 @@ export class DisplayComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator
   @ViewChild(MatSort) sort: MatSort
 
-  constructor(private dataService: DataServicesService, private titleServie: Title) {
+  constructor(private dataService: DataServicesService, private titleServie: Title, private snackbar: MatSnackBar) {
     this.titleServie.setTitle('Display Data')
   }
   
@@ -44,6 +44,9 @@ export class DisplayComponent implements OnInit {
       } else {
         console.log(data)
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
       this.value = 100
     })
   }

@@ -25,6 +25,7 @@ export class DataServicesService {
   public _statisticEndUrl = this._ip + 'api/statisticend'
   public _statisticSummaryUrl = this._ip + 'api/statisticsummary'
   public _filterUrl = this._ip + 'api/filter'
+  public _attemptUrl = this._ip + 'api/countattempt'
 
   constructor(private http: HttpClient) { }
 
@@ -115,6 +116,19 @@ export class DataServicesService {
       })
     }
     return this.http.post(this._aliasUrl, data, options)
+  }
+
+  getAttempt() {
+    return this.http.get(this._attemptUrl)
+  }
+
+  sendAttempt(data) {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    }
+    return this.http.post(this._attemptUrl, data, options)
   }
 
   getJoin() {

@@ -77,6 +77,45 @@
             </mat-card>
         </mat-step>
         <mat-step>
+            <ng-template matStepLabel>Count Attempt</ng-template>
+            <mat-card *ngIf="attemptReady">
+                <mat-card-header>
+                    <mat-card-title>Count Attempt</mat-card-title>
+                    <mat-card-subtitle>Count attempt per case</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <form *ngIf="attemptColumn" #attempt='ngForm' (ngSubmit)='submitAttempt(attempt)'>
+                        <mat-form-field style="width: 100%;">
+                            <mat-select name='base' placeholder="Base Column" required ngModel>
+                                <mat-option *ngFor="let col of attemptColumn" [value]="col">{{ col }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field style="width: 100%;">
+                            <mat-select name='col' placeholder="Count Column" required ngModel (selectionChange)="attemptChooseColumn($event)">
+                                <mat-option *ngFor="let col of attemptColumn" [value]="col">{{ col }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field style="width: 100%;" *ngIf="attemptChoosenColumn">
+                            <mat-select name='start' placeholder="Start Event" required ngModel>
+                                <mat-option *ngFor="let col of attemptData[attemptChoosenColumn]" [value]="col">{{ col }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field style="width: 100%;" *ngIf="attemptChoosenColumn">
+                            <mat-select name='end' placeholder="End Event" required ngModel>
+                                <mat-option *ngFor="let col of attemptData[attemptChoosenColumn]" [value]="col">{{ col }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <button mat-raised-button id="attemptSubmit" type="submit" name="submit" class="button" style="display: none;">Submit</button>
+                    </form>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button matStepperPrevious>Back</button>
+                    <button mat-raised-button matStepperNext>Next</button>
+                    <button mat-raised-button onclick="attemptSubmit.click();" style="float: right;" color='primary'>Submit</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-step>
+        <mat-step>
             <ng-template matStepLabel>Join Column</ng-template>
             <mat-card *ngIf="joinReady">
                 <mat-card-header>

@@ -5,6 +5,7 @@ import { LogHeader } from '../log-header';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { catchError, map, tap } from 'rxjs/operators'
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-preprocess',
@@ -26,6 +27,11 @@ export class PreprocessComponent implements OnInit {
   private selectedValueAlias
   private aliasValue: Array<String> = []
   private newColumn = false
+  // Attempt
+  private attemptReady = false
+  private attemptColumn
+  private attemptData
+  private attemptChoosenColumn = null
   // Join
   private joinReady = false
   private joinColumn
@@ -36,7 +42,7 @@ export class PreprocessComponent implements OnInit {
   private chooseData
   private chooseReady = false
 
-  constructor(private dataService: DataServicesService, private router: Router, private titleService: Title) {
+  constructor(private dataService: DataServicesService, private router: Router, private titleService: Title, private snackbar: MatSnackBar) {
     this.titleService.setTitle('Preprocess Data')
   }
 
@@ -50,8 +56,12 @@ export class PreprocessComponent implements OnInit {
       if (data.status == 'success') {
         this.timeColumn = data.data
         this.convertReady = true
-        this.value = 100
+      } else {
+        this.snackbar.open(data.message, '', {
+          duration: 3000
+        })
       }
+      this.value = 100
     })
   }
 
@@ -66,8 +76,12 @@ export class PreprocessComponent implements OnInit {
         if (data.status == 'success') {
           this.timeColumn = data.data
           this.convertReady = true
-          this.value = 100
+        } else {
+          this.snackbar.open(data.message, '', {
+            duration: 3000
+          })
         }
+        this.value = 100
       })
     } else if (event.selectedIndex == 1) {
       this.aliasReady = false
@@ -79,10 +93,31 @@ export class PreprocessComponent implements OnInit {
           this.aliasColumn = data.data.column
           this.aliasData = data.data.data
           this.aliasReady = true
-          this.value = 100
+        } else {
+          this.snackbar.open(data.message, '', {
+            duration: 3000
+          })
         }
+        this.value = 100
       })
     } else if (event.selectedIndex == 2) {
+      this.aliasReady = false
+      this.dataService.getAttempt().subscribe((data: any) => {
+        this.value = 50
+        data = JSON.parse(data)
+        this.value = 75
+        if (data.status == 'success') {
+          this.attemptColumn = data.data.column
+          this.attemptData = data.data.data
+          this.attemptReady = true
+        } else {
+          this.snackbar.open(data.message, '', {
+            duration: 3000
+          })
+        }
+        this.value = 100
+      })
+    } else if (event.selectedIndex == 3) {
       this.joinReady = false
       this.dataService.getJoin().subscribe((data: any) => {
         this.value = 50
@@ -91,10 +126,14 @@ export class PreprocessComponent implements OnInit {
         if (data.status == 'success') {
           this.joinColumn = data.data
           this.joinReady = true
-          this.value = 100
+        } else {
+          this.snackbar.open(data.message, '', {
+            duration: 3000
+          })
         }
+        this.value = 100
       })
-    } else if (event.selectedIndex == 3) {
+    } else if (event.selectedIndex == 4) {
       this.dropReady = false
       this.dataService.getDrop().subscribe((data: any) => {
         this.value = 50
@@ -103,10 +142,14 @@ export class PreprocessComponent implements OnInit {
         if (data.status == 'success') {
           this.dropColumn = data.data
           this.dropReady = true
-          this.value = 100
+        } else {
+          this.snackbar.open(data.message, '', {
+            duration: 3000
+          })
         }
+        this.value = 100
       })
-    } else if (event.selectedIndex == 4) {
+    } else if (event.selectedIndex == 5) {
       this.dataService.preprocessHead().subscribe((data: any) => {
         this.value = 50
         data = JSON.parse(data)
@@ -114,8 +157,12 @@ export class PreprocessComponent implements OnInit {
         if (data.status == 'success') {
           this.chooseData = data.data
           this.chooseReady = true
-          this.value = 100
+        } else {
+          this.snackbar.open(data.message, '', {
+            duration: 3000
+          })
         }
+        this.value = 100
       })
     }
   }
@@ -134,8 +181,11 @@ export class PreprocessComponent implements OnInit {
       if (data.status == 'success') {
         time.resetForm()
         this.timeColumn = data.data
-        this.value = 100
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
+      this.value = 100
     })
   }
   
@@ -197,8 +247,42 @@ export class PreprocessComponent implements OnInit {
         this.aliasChoosenColumn = null
         this.aliasColumn = data.data.column
         this.aliasData = data.data.data
-        this.value = 100
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
+      this.value = 100
+    })
+  }
+
+  // ATTEMPT
+  attemptChooseColumn(event) {
+    this.attemptChoosenColumn = event.value
+  }
+
+  submitAttempt(attempt: NgForm) {
+    this.value = 25
+    let data = JSON.stringify(
+      {
+        'data': attempt.value
+      }
+    )
+
+    this.dataService.sendAttempt(data).subscribe((data: any) => {
+      this.value = 50
+      data = JSON.parse(data)
+      if (data.status == 'success') {
+        this.attemptReady = false
+        this.attemptChoosenColumn = null
+        this.attemptColumn = data.data.column
+        this.attemptData = data.data.data
+        attempt.resetForm()
+        this.attemptReady = true
+      }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
+      this.value = 100
     })
   }
 
@@ -218,8 +302,11 @@ export class PreprocessComponent implements OnInit {
       if (data.status == 'success') {
         join.resetForm()
         this.joinColumn = data.data
-        this.value = 100
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
+      this.value = 100
     })
   }
 
@@ -239,8 +326,11 @@ export class PreprocessComponent implements OnInit {
       if (data.status == 'success') {
         drop.resetForm()
         this.dropColumn = data.data
-        this.value = 100
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
+      this.value = 100
     })
   }
 
@@ -258,9 +348,14 @@ export class PreprocessComponent implements OnInit {
       this.value = 50
       this.dataService.preprocess(formData).subscribe((data: any) => {
         data = JSON.parse(data)
+        this.value - 75
         if (data.status == 'success') {
           this.router.navigate(['display'])
         }
+        this.snackbar.open(data.message, '', {
+          duration: 3000
+        })
+        this.value = 100
       })
     }
   }

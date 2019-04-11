@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { DataServicesService } from '../data-services.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-files',
@@ -13,7 +14,7 @@ export class FilesComponent implements OnInit {
   public title
   private value = 10
 
-  constructor(private titleService: Title, private dataService: DataServicesService, private router: Router) {
+  constructor(private titleService: Title, private dataService: DataServicesService, private router: Router, private snackbar: MatSnackBar) {
     this.titleService.setTitle('Upload')
   }
   
@@ -26,6 +27,9 @@ export class FilesComponent implements OnInit {
       if (data.status == 'success') {
         this.router.navigate(['display'])
       }
+      this.snackbar.open(data.message, '', {
+        duration: 3000
+      })
       this.value = 100
     })
   }
@@ -47,13 +51,12 @@ export class FilesComponent implements OnInit {
         data = JSON.parse(data)
         this.value = 75
         if (data.status == 'success') {
-          this.value = 100
           this.router.navigate(['display'])
-        } else {
-          // TODO: handle error
-          this.value = 100
-          console.log(data)
         }
+        this.snackbar.open(data.message, '', {
+          duration: 3000
+        })
+        this.value = 100
       })
     }
   }
