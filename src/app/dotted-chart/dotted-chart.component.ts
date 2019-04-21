@@ -129,7 +129,8 @@ export class DottedChartComponent implements OnInit {
         title:"time"
       },
       axisY:{
-        title: "case id"
+        title: "",
+        labelFontColor: "transparent"
       },
         
       data: content
