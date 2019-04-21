@@ -5,6 +5,7 @@ import { render } from 'dagre-d3';
 import { read } from 'graphlib-dot'
 import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class ControlFlowComponent implements OnInit {
   private min
   private content
 
-  constructor(private dataService: DataServicesService, private titleService: Title, private snackbar: MatSnackBar) {
+  constructor(private dataService: DataServicesService, private titleService: Title, private snackbar: MatSnackBar, private router: Router) {
     this.titleService.setTitle('Control Flow')
   }
 
@@ -39,6 +40,8 @@ export class ControlFlowComponent implements OnInit {
         console.log(this.eventLog)
         this.initContent()
         this.generate()
+      } else if (data.message == 'Data is not finished') {
+        this.router.navigate(['preprocess'])
       }
       this.snackbar.open(data.message, '', {
         duration: 3000
