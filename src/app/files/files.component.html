@@ -5,6 +5,7 @@
 
 <div class="upload-container">
   <p>Please provide your moodle event log in csv or xes extension to start this application</p>
+  <mat-slide-toggle (change)='reverseEvent($event)'>Reverse Index</mat-slide-toggle><br><br>
   <button mat-raised-button color='accent' (click)="openUpload()">Choose File</button>
   <input type="file" id="file" (change)="fileChange($event)" hidden>
 </div>

@@ -41,6 +41,8 @@ export class PreprocessComponent implements OnInit {
   // Choose
   private chooseData
   private chooseReady = false
+  // Button
+  private clicked = false
 
   constructor(private dataService: DataServicesService, private router: Router, private titleService: Title, private snackbar: MatSnackBar) {
     this.titleService.setTitle('Preprocess Data')
@@ -168,25 +170,28 @@ export class PreprocessComponent implements OnInit {
   }
 
   submitConvert(time: NgForm) {
-    this.value = 25
-    let data = JSON.stringify(
-      {
-        'data': time.value
-      }
-    )
-    this.dataService.sendConvert(data).subscribe((data:any) => {
-      this.value = 50
-      data = JSON.parse(data)
-      this.value = 75
-      if (data.status == 'success') {
-        time.resetForm()
-        this.timeColumn = data.data
-      }
-      this.snackbar.open(data.message, '', {
-        duration: 3000
+    console.log(time.value)
+    if (time.value != '' || time.value != null) {
+      this.value = 25
+      let data = JSON.stringify(
+        {
+          'data': time.value
+        }
+      )
+      this.dataService.sendConvert(data).subscribe((data:any) => {
+        this.value = 50
+        data = JSON.parse(data)
+        this.value = 75
+        if (data.status == 'success') {
+          time.resetForm()
+          this.timeColumn = data.data
+        }
+        this.snackbar.open(data.message, '', {
+          duration: 3000
+        })
+        this.value = 100
       })
-      this.value = 100
-    })
+    }
   }
   
   // ALIAS
@@ -339,11 +344,11 @@ export class PreprocessComponent implements OnInit {
     if (choose.valid) {
       this.value = 25
       let case_id = choose.value.case_id
-      let task = choose.value.task
+      let event = choose.value.event
       let timestamp = choose.value.timestamp
       let formData = new FormData()
       formData.append('case_id', case_id)
-      formData.append('event', task)
+      formData.append('event', event)
       formData.append('timestamp', timestamp)
       this.value = 50
       this.dataService.preprocess(formData).subscribe((data: any) => {

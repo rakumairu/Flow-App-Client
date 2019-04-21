@@ -1,7 +1,7 @@
 <mat-form-field>
-    <mat-select placeholder="Choose Sort Type" (selectionChange)="changeView($event)" style="width: 100%;" [disabled]='!contentReady'>
-        <mat-option value='starttime'>Sort by start time</mat-option>
-        <mat-option value='duration'>Sort by duration</mat-option>
+    <mat-select placeholder="Choose Dotetd Chart Type" (selectionChange)="changeView($event)" style="width: 100%;" [disabled]='!contentReady'>
+        <mat-option value='absolute'>Dotted Chart with Absolute Time</mat-option>
+        <mat-option value='relative'>Dotted Chart with Relative Time</mat-option>
     </mat-select>
 </mat-form-field>
 

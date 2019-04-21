@@ -53,9 +53,9 @@ export class DottedChartComponent implements OnInit {
   }
 
   changeView(event) {
-    if (event.value == 'starttime') {
+    if (event.value == 'absolute') {
       this.loadChart(this.contentFirst)
-    } else if (event.value == 'duration') {
+    } else if (event.value == 'relative') {
       this.loadChart(this.contentSecond)
     }
   }

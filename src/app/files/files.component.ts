@@ -13,6 +13,7 @@ export class FilesComponent implements OnInit {
 
   public title
   private value = 10
+  private reverseIndex = false
 
   constructor(private titleService: Title, private dataService: DataServicesService, private router: Router, private snackbar: MatSnackBar) {
     this.titleService.setTitle('Upload')
@@ -38,6 +39,10 @@ export class FilesComponent implements OnInit {
     document.getElementById('file').click()
   }
 
+  reverseEvent(event) {
+    this.reverseIndex = event.checked
+  }
+
   fileChange(event) {
     let fileList: FileList = event.target.files
     this.value = 25
@@ -45,7 +50,7 @@ export class FilesComponent implements OnInit {
       let file = fileList[0]
       let formData = new FormData()
       formData.append('file', file, file.name)
-      // TODO: add progress bar
+      formData.append('reverse', this.reverseIndex.toString())
       this.dataService.upload(formData).subscribe((data: any) => {
         this.value = 50
         data = JSON.parse(data)
