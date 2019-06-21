@@ -1,10 +1,11 @@
 <mat-toolbar color="primary" class="mat-elevation-z6 app-navbar">
   <span style="padding-left: 16px; padding-right:16px; font-size: 14px;">Flow</span>
   <button mat-button [routerLink]="[ '/display' ]" routerLinkActive="active" *ngIf="fileExist">Display</button>
-  <button mat-button [routerLink]="[ '/preprocess' ]" routerLinkActive="active" *ngIf="fileExist">Preprocess</button>
+  <button mat-button [routerLink]="[ '/preprocessing' ]" routerLinkActive="active" *ngIf="fileExist">Preprocess</button>
   <button mat-button [routerLink]="[ '/statistic' ]" routerLinkActive="active" *ngIf="fileExist">Statistic</button>
   <button mat-button [routerLink]="[ '/filter' ]" routerLinkActive="active" *ngIf="fileExist">Filter</button>
   <button mat-button [routerLink]="[ '/graph' ]" routerLinkActive="active" *ngIf="fileExist">Graph</button>
+  <button mat-button [routerLink]="[ '/algoritma' ]" routerLinkActive="active" *ngIf="fileExist">Alpha Miner</button>
   <span class="fillSpace"></span>
   <button mat-raised-button color="warn" class="button alert" (click)="delete()" *ngIf="fileExist">Delete Data</button>
 </mat-toolbar>

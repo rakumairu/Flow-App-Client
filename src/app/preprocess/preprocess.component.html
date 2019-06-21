@@ -1,200 +1,200 @@
-<mat-progress-bar *ngIf="value > 0" [value]='value' color='primary'></mat-progress-bar>
-<div class="page-header">
+<!-- <mat-progress-bar *ngIf="value > 0" [value]='value' color='primary'></mat-progress-bar> -->
+<!-- <div class="page-header">
     <h1>Preprocessing Data</h1>
-</div>
+</div> -->
 
-<div class="page-content">
-    <mat-horizontal-stepper labelPosition='bottom' (selectionChange)='stepChange($event)'>
-        <mat-step>
-            <ng-template matStepLabel>Convert Time</ng-template>
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Convert Time</mat-card-title>
-                    <mat-card-subtitle>Convert time format to ISO format</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content *ngIf="timeColumn">
-                    <form #time='ngForm' (ngSubmit)='submitConvert(time)'>
-                        <mat-form-field style="width: 100%;">
-                            <mat-select name='time' placeholder="Time Column" required ngModel>
-                                <mat-option *ngFor="let col of timeColumn" [value]="col">{{ col }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <button type="button" mat-raised-button matStepperNext>Next</button>
-                        <button mat-raised-button id="timeSubmit" type="submit" name="submit" class="button" [disabled]='time.invalid' style="float: right;" color='primary'>Submit</button>
-                    </form>
-                </mat-card-content>
-            </mat-card>
-        </mat-step>
-        <mat-step>
-            <ng-template matStepLabel>Alias Data</ng-template>
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Alias Data</mat-card-title>
-                    <mat-card-subtitle>Give alias to your data and filter out certain value that not needed</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content *ngIf="aliasReady">
-                    <mat-form-field>
-                        <mat-select [(value)]='selectedValueAlias' placeholder="Choose Column" required (selectionChange)="aliasColumnChoosen($event, alias)" style="width: 100%;">
-                            <mat-option *ngFor="let col of aliasColumn" [value]="col">{{ col }}</mat-option>
+<mat-horizontal-stepper labelPosition='bottom' (selectionChange)='stepChange($event)'>
+    <mat-step>
+        <ng-template matStepLabel>Convert Time</ng-template>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Convert Time</mat-card-title>
+                <mat-card-subtitle>Convert time format to ISO format</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content *ngIf="timeColumn">
+                <form #time='ngForm' (ngSubmit)='submitConvert(time)'>
+                    <mat-form-field style="width: 100%;">
+                        <mat-select name='time' placeholder="Time Column" required ngModel>
+                            <mat-option *ngFor="let col of timeColumn" [value]="col">{{ col }}</mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <form #alias="ngForm" (ngSubmit)="submitAlias(alias)">
-                        <div *ngIf="aliasChoosenColumn">
-                            <div>
-                                <button mat-stroked-button type="button" (click)="fillNumber()" style="float: right;" color='primary'>Fill Number</button>
-                                <button mat-stroked-button type="button" (click)="originalValue()" style="float: right;" color='primary'>Current Value</button>
-                                <h4>Value List</h4>
-                                <small>Leave out the value that you want to get rid off</small><br><br>
-                                <mat-slide-toggle (change)='toggleNewColumn($event)'>New Column</mat-slide-toggle><br>
-                                <mat-form-field style="margin-top: 8px;">
-                                    <input matInput id='newColumnName' name='newColumnName' type="text" placeholder='Name for the new column' ngModel [disabled]='!newColumn' [required]='!newColumn'>
-                                </mat-form-field>
-                            </div>
-                            <br>
-                            <mat-grid-list cols="4" rowHeight="60px">
-                                <mat-grid-tile *ngFor="let data of aliasData[aliasChoosenColumn], let i = index">
-                                    <mat-form-field style="width: 100%;">
-                                        <input matInput [id]='data' [name]='data' type="text" [placeholder]='data' [(ngModel)]='aliasValue[i]'>
-                                    </mat-form-field>
-                                    <button type="button" mat-button mat-icon-button aria-label="Clear" (click)="aliasValue[i]=data">
-                                        <mat-icon>assignment</mat-icon>
-                                    </button>
-                                    <button [id]='i' type="button" mat-button (click)="value=i" style="display: none;"></button>
-                                </mat-grid-tile>
-                            </mat-grid-list>
-                            <button mat-raised-button id="aliasSubmit" type="submit" name="submit" class="button" style="display: none;">Submit</button>
+                    <button type="button" mat-raised-button matStepperNext>Next</button>
+                    <button mat-raised-button id="timeSubmit" type="submit" name="submit" class="button" [disabled]='time.invalid' style="float: right;" color='primary'>Submit</button>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Alias Data</ng-template>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Alias Data</mat-card-title>
+                <mat-card-subtitle>Give alias to your data and filter out certain value that not needed</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content *ngIf="aliasReady">
+                <mat-form-field>
+                    <mat-select [(value)]='selectedValueAlias' placeholder="Choose Column" required (selectionChange)="aliasColumnChoosen($event, alias)" style="width: 100%;">
+                        <mat-option *ngFor="let col of aliasColumn" [value]="col">{{ col }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <form #alias="ngForm" (ngSubmit)="submitAlias(alias)">
+                    <div *ngIf="aliasChoosenColumn">
+                        <div>
+                            <button mat-stroked-button type="button" (click)="fillNumber()" style="float: right;" color='primary'>Fill Number</button>
+                            <button mat-stroked-button type="button" (click)="originalValue()" style="float: right;" color='primary'>Current Value</button>
+                            <h4>Value List</h4>
+                            <small>Leave out the value that you want to get rid off</small><br><br>
+                            <mat-slide-toggle (change)='toggleNewColumn($event)'>New Column</mat-slide-toggle><br>
+                            <mat-form-field style="margin-top: 8px;">
+                                <input matInput id='newColumnName' name='newColumnName' type="text" placeholder='Name for the new column' ngModel [disabled]='!newColumn' [required]='!newColumn'>
+                            </mat-form-field>
                         </div>
-                    </form>
-                    </mat-card-content>
-                    <mat-card-actions *ngIf="aliasReady" style='padding-bottom: 8px;padding-left: 8px;'>
-                        <button mat-raised-button matStepperPrevious>Back</button>
-                        <button mat-raised-button matStepperNext>Next</button>
-                        <button *ngIf="aliasChoosenColumn" mat-raised-button onclick="aliasSubmit.click();" style="float: right;" color='primary'>Submit</button>
                         <br>
-                </mat-card-actions>
-            </mat-card>
-        </mat-step>
-        <mat-step>
-            <ng-template matStepLabel>Count Attempt</ng-template>
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Count Attempt</mat-card-title>
-                    <mat-card-subtitle>Count attempt per case</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content *ngIf="attemptReady">
-                    <form *ngIf="attemptColumn" #attempt='ngForm' (ngSubmit)='submitAttempt(attempt)'>
-                        <mat-form-field style="width: 100%;">
-                            <mat-select name='base' placeholder="Base Column" required ngModel>
-                                <mat-option *ngFor="let col of attemptColumn" [value]="col">{{ col }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field style="width: 100%;">
-                            <mat-select name='col' placeholder="Count Column" required ngModel (selectionChange)="attemptChooseColumn($event)">
-                                <mat-option *ngFor="let col of attemptColumn" [value]="col">{{ col }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field style="width: 100%;" *ngIf="attemptChoosenColumn">
-                            <mat-select name='start' placeholder="Start Event" required ngModel>
-                                <mat-option *ngFor="let col of attemptData[attemptChoosenColumn]" [value]="col">{{ col }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field style="width: 100%;" *ngIf="attemptChoosenColumn">
-                            <mat-select name='end' placeholder="End Event" required ngModel>
-                                <mat-option *ngFor="let col of attemptData[attemptChoosenColumn]" [value]="col">{{ col }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <button mat-raised-button matStepperPrevious type='button' style='margin-right: 8px;'>Back</button>
-                        <button mat-raised-button matStepperNext type='button'>Next</button>
-                        <button mat-raised-button id="attemptSubmit" type="submit" name="submit" class="button" style="float: right;" color='primary' [disabled]='attempt.invalid'>Submit</button>
-                    </form>
+                        <mat-grid-list cols="4" rowHeight="60px">
+                            <mat-grid-tile *ngFor="let data of aliasData[aliasChoosenColumn], let i = index">
+                                <mat-form-field style="width: 100%;">
+                                    <input matInput [id]='data' [name]='data' type="text" [placeholder]='data' [(ngModel)]='aliasValue[i]'>
+                                </mat-form-field>
+                                <button type="button" mat-button mat-icon-button aria-label="Clear" (click)="aliasValue[i]=data">
+                                    <mat-icon>assignment</mat-icon>
+                                </button>
+                                <button [id]='i' type="button" mat-button (click)="value=i" style="display: none;"></button>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                        <button mat-raised-button id="aliasSubmit" type="submit" name="submit" class="button" style="display: none;">Submit</button>
+                    </div>
+                </form>
                 </mat-card-content>
-            </mat-card>
-        </mat-step>
-        <mat-step>
-            <ng-template matStepLabel>Join Column</ng-template>
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Join Column</mat-card-title>
-                    <mat-card-subtitle>Join two column to new column</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content *ngIf="joinReady">
-                    <form *ngIf="joinColumn" #join='ngForm' (ngSubmit)='submitJoin(join)'>
-                        <mat-form-field style="width: 100%;">
-                            <mat-select name='col1' placeholder="First Column" required ngModel>
-                                <mat-option *ngFor="let col of joinColumn" [value]="col">{{ col }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field style="width: 100%;">
-                            <mat-select name='col2' placeholder="Second Column" required ngModel>
-                                <mat-option *ngFor="let col of joinColumn" [value]="col">{{ col }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field style="width: 100%;">
-                            <input matInput name='name' type="text" placeholder='New column name' ngModel required>
-                        </mat-form-field>
-                        <mat-form-field style="width: 100%;">
-                            <input matInput name='delimiter' type="text" placeholder='Delimiter that will be used to separate value from those column' ngModel>
-                        </mat-form-field>
-                        <button mat-raised-button matStepperPrevious type='button' style='margin-right: 8px;'>Back</button>
-                        <button mat-raised-button matStepperNext type='button'>Next</button>
-                        <button mat-raised-button id="joinSubmit" type="submit" name="submit" class="button" style="float: right;" color='primary' [disabled]='join.invalid'>Submit</button>
-                    </form>
-                </mat-card-content>
-            </mat-card>
-        </mat-step>
-        <mat-step>
-            <ng-template matStepLabel>Drop Column</ng-template>
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Drop Column</mat-card-title>
-                    <mat-card-subtitle>Drop column that aren't needed</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content *ngIf="dropReady">
-                    <form *ngIf="dropColumn" #drop='ngForm' (ngSubmit)='submitDrop(drop)'>
-                        <mat-form-field style="width: 100%;">
-                            <mat-select name='col' placeholder="Column that will be dropped" required ngModel>
-                                <mat-option *ngFor="let col of dropColumn" [value]="col">{{ col }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <button mat-raised-button matStepperPrevious type='button' style='margin-right: 8px;'>Back</button>
-                        <button mat-raised-button matStepperNext type='button'>Next</button>
-                        <button mat-raised-button id="dropSubmit" type="submit" name="submit" class="button" style="float: right;" color='primary' [disabled]='drop.invalid'>Submit</button>
-                    </form>
-                </mat-card-content>
-            </mat-card>
-        </mat-step>
-        <mat-step>
-            <ng-template matStepLabel>Choose Column</ng-template>
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Choose Column</mat-card-title>
-                    <mat-card-subtitle>Chosse 3 column that will be used as case id, event and timestamp</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content *ngIf="chooseReady">
-                    <form #choose="ngForm" (ngSubmit)="submitChoose(choose)">
-                        <h4>Case ID</h4>
-                        <mat-form-field style="width: 100%;">
-                            <mat-select placeholder="case id" name='case_id' [(ngModel)]='case_id' required>
-                                <mat-option *ngFor="let h of chooseData; let i = index" [value]="i">{{ h }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <h4>Event</h4>
-                        <mat-form-field style="width: 100%;">
-                            <mat-select placeholder="event" name='event' [(ngModel)]='event' required>
-                                <mat-option *ngFor="let h of chooseData; let i = index" [value]="i">{{ h }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <h4>Timestamp</h4>
-                        <mat-form-field style="width: 100%;">
-                            <mat-select placeholder="timestamp" name='timestamp' [(ngModel)]='timestamp' required>
-                                <mat-option *ngFor="let h of chooseData; let i = index" [value]="i">{{ h }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <button mat-raised-button matStepperPrevious type='button'>Back</button>
-                        <button mat-raised-button id='chooseSubmit' type="submit" name="submit" class="button" color="primary" style="float: right;" color='primary' [disabled]='choose.invalid'>Submit</button>
-                    </form>
-                </mat-card-content>
-            </mat-card>
-        </mat-step>
-    </mat-horizontal-stepper>
-</div>
+                <mat-card-actions *ngIf="aliasReady" style='padding-bottom: 8px;padding-left: 8px;'>
+                    <button mat-raised-button matStepperPrevious>Back</button>
+                    <button mat-raised-button matStepperNext>Next</button>
+                    <button *ngIf="aliasChoosenColumn" mat-raised-button onclick="aliasSubmit.click();" style="float: right;" color='primary'>Submit</button>
+                    <br>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Count Attempt</ng-template>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Count Attempt</mat-card-title>
+                <mat-card-subtitle>Count attempt per case</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content *ngIf="attemptReady">
+                <form *ngIf="attemptColumn" #attempt='ngForm' (ngSubmit)='submitAttempt(attempt)'>
+                    <mat-form-field style="width: 100%;">
+                        <mat-select name='base' placeholder="Base Column" required ngModel>
+                            <mat-option *ngFor="let col of attemptColumn" [value]="col">{{ col }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field style="width: 100%;">
+                        <mat-select name='col' placeholder="Count Column" required ngModel (selectionChange)="attemptChooseColumn($event)">
+                            <mat-option *ngFor="let col of attemptColumn" [value]="col">{{ col }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field style="width: 100%;" *ngIf="attemptChoosenColumn">
+                        <mat-select name='start' placeholder="Start Event" required ngModel>
+                            <mat-option *ngFor="let col of attemptData[attemptChoosenColumn]" [value]="col">{{ col }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field style="width: 100%;" *ngIf="attemptChoosenColumn">
+                        <mat-select name='end' placeholder="End Event" required ngModel>
+                            <mat-option *ngFor="let col of attemptData[attemptChoosenColumn]" [value]="col">{{ col }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button mat-raised-button matStepperPrevious type='button' style='margin-right: 8px;'>Back</button>
+                    <button mat-raised-button matStepperNext type='button'>Next</button>
+                    <button mat-raised-button id="attemptSubmit" type="submit" name="submit" class="button" style="float: right;" color='primary' [disabled]='attempt.invalid'>Submit</button>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Join Column</ng-template>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Join Column</mat-card-title>
+                <mat-card-subtitle>Join two column to new column</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content *ngIf="joinReady">
+                <form *ngIf="joinColumn" #join='ngForm' (ngSubmit)='submitJoin(join)'>
+                    <mat-form-field style="width: 100%;">
+                        <mat-select name='col1' placeholder="First Column" required ngModel>
+                            <mat-option *ngFor="let col of joinColumn" [value]="col">{{ col }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field style="width: 100%;">
+                        <mat-select name='col2' placeholder="Second Column" required ngModel>
+                            <mat-option *ngFor="let col of joinColumn" [value]="col">{{ col }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field style="width: 100%;">
+                        <input matInput name='name' type="text" placeholder='New column name' ngModel required>
+                    </mat-form-field>
+                    <mat-form-field style="width: 100%;">
+                        <input matInput name='delimiter' type="text" placeholder='Delimiter that will be used to separate value from those column' ngModel>
+                    </mat-form-field>
+                    <button mat-raised-button matStepperPrevious type='button' style='margin-right: 8px;'>Back</button>
+                    <button mat-raised-button matStepperNext type='button'>Next</button>
+                    <button mat-raised-button id="joinSubmit" type="submit" name="submit" class="button" style="float: right;" color='primary' [disabled]='join.invalid'>Submit</button>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Drop Column</ng-template>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Drop Column</mat-card-title>
+                <mat-card-subtitle>Drop column that aren't needed</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content *ngIf="dropReady">
+                <form *ngIf="dropColumn" #drop='ngForm' (ngSubmit)='submitDrop(drop)'>
+                    <mat-form-field style="width: 100%;">
+                        <mat-select name='col' placeholder="Column that will be dropped" required ngModel>
+                            <mat-option *ngFor="let col of dropColumn" [value]="col">{{ col }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button mat-raised-button matStepperPrevious type='button' style='margin-right: 8px;'>Back</button>
+                    <button mat-raised-button matStepperNext type='button'>Next</button>
+                    <button mat-raised-button id="dropSubmit" type="submit" name="submit" class="button" style="float: right;" color='primary' [disabled]='drop.invalid'>Submit</button>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Choose Column</ng-template>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Choose Column</mat-card-title>
+                <mat-card-subtitle>Chosse 3 column that will be used as case id, event and timestamp</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content *ngIf="chooseReady">
+                <form #choose="ngForm" (ngSubmit)="submitChoose(choose)">
+                    <h4>Case ID</h4>
+                    <mat-form-field style="width: 100%;">
+                        <mat-select placeholder="case id" name='case_id' [(ngModel)]='case_id' required>
+                            <mat-option *ngFor="let h of chooseData; let i = index" [value]="i">{{ h }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <h4>Event</h4>
+                    <mat-form-field style="width: 100%;">
+                        <mat-select placeholder="event" name='event' [(ngModel)]='event' required>
+                            <mat-option *ngFor="let h of chooseData; let i = index" [value]="i">{{ h }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <h4>Timestamp</h4>
+                    <mat-form-field style="width: 100%;">
+                        <mat-select placeholder="timestamp" name='timestamp' [(ngModel)]='timestamp' required>
+                            <mat-option *ngFor="let h of chooseData; let i = index" [value]="i">{{ h }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button mat-raised-button matStepperPrevious type='button'>Back</button>
+                    <button mat-raised-button id='chooseSubmit' type="submit" name="submit" class="button" color="primary" style="float: right;" color='primary' [disabled]='choose.invalid'>Submit</button>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </mat-step>
+</mat-horizontal-stepper>
+<!-- <div class="page-content">
+</div> -->
