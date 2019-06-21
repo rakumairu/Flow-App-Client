@@ -15,6 +15,9 @@ import { DottedChartComponent } from './dotted-chart/dotted-chart.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { StatisticComponent } from './statistic/statistic.component';
+import { AlgoritmaComponent } from './algoritma/algoritma.component';
+import { PreprocessingComponent } from './preprocessing/preprocessing.component';
+import { PreprocessingAlphaComponent } from './preprocessing-alpha/preprocessing-alpha.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,10 @@ import { StatisticComponent } from './statistic/statistic.component';
     FilesComponent,
     ControlFlowComponent,
     DottedChartComponent,
-    StatisticComponent
+    StatisticComponent,
+    AlgoritmaComponent,
+    PreprocessingComponent,
+    PreprocessingAlphaComponent
   ],
   imports: [
     BrowserModule,
